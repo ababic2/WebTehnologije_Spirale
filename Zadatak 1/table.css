@@ -1,0 +1,29 @@
+table {
+    border-collapse: collapse;
+}
+
+td:nth-child(odd) {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+td:nth-child(even) {
+    border-right: 1px dashed;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+table {
+    height: 300px;
+    width: 500px;
+    table-layout: auto;
+}
+
+.outside {
+    border:none;
+    text-align: right;
+    width: 20px;
+    padding-right: 10px;
+}

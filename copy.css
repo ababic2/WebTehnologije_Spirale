@@ -1,0 +1,22 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th{
+    height: 40px;
+    background-color: darkgray;
+}
+
+td {
+    height: 100px;
+    text-align: center;
+}
+
+#dan {
+    border: none;
+}
