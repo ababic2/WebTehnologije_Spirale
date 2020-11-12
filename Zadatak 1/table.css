@@ -1,24 +1,28 @@
 table {
+    height: 300px;
+    width: 500px;
+    table-layout: auto;
     border-collapse: collapse;
 }
 
-td:nth-child(odd) {
+td{
+    width: 30px;
+    height: 50px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.even {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
 }
 
-td:nth-child(even) {
+.odd {
     border-right: 1px dashed;
     border-left: 1px solid black;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
-}
-
-table {
-    height: 300px;
-    width: 500px;
-    table-layout: auto;
 }
 
 .outside {
@@ -26,4 +30,45 @@ table {
     text-align: right;
     width: 20px;
     padding-right: 10px;
+}
+
+td.evenColspan {
+    background-color: silver;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 20px;
+    vertical-align: top;
+}
+
+td.oddColspan1 {
+    background-color: silver;
+    border-right: 1px dashed black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 20px;
+    vertical-align: top;
+}
+
+td.oddColspan2 {
+    background-color: silver;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 20px;
+    vertical-align: top;
+}
+
+td.allDashed {
+    border-right: 1px dashed black;
+    border-top: 1px dashed black;
+    border-bottom: 1px dashed black;
+    border-left: 1px dashed black;
+}
+
+td.allSolid {
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
 }
