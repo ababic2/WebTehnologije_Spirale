@@ -5,11 +5,17 @@ table.lectures {
     table-layout: auto;
     border-collapse: collapse;
 }
-table.time {
-    height: 11px;
-    width: 500px;
-    table-layout: auto;
-    border-collapse: collapse;
+
+.leftShift {
+    position: relative;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.leftShift > div {
+    position: absolute;
+    margin-left: calc(-50% - 1px);
+    width: 100%;
 }
 
 td{
@@ -17,15 +23,7 @@ td{
     height: 50px;
     text-align: center;
     font-size: 10px;
-    font-family: Cantarell;
-}
-
-td.time {
-    vertical-align:bottom ;
-    width: 10px;
-    padding-left: 5px;
-    font-size: 10px;
-    font-family:Cantarell;
+    font-family: Cantarell, Arial, sans-serif;
 }
 
 td.evenColspan {
