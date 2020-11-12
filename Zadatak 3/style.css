@@ -3,14 +3,14 @@ input[type=text], select, input[type = time]{
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid silver;
+    border: 1px solid dodgerblue;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
 div {
     border-radius: 30px;
-    background-color: #f2f2f2;
+    background-color: #9dc2fa;
     padding: 20px;
     align-items: center;
     alignment: center;
@@ -26,7 +26,8 @@ body, html {
 body {
     display:table-cell;
     vertical-align:middle;
-    background-color: silver;
+    background: linear-gradient(180deg, #9dc2fa 0%,#cadffc 40%, #cfe2fc 100%) no-repeat center fixed;
+    background-size: cover;
 }
 
 label {
