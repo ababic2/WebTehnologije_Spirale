@@ -8,7 +8,7 @@ input[type=text], select, input[type = time]{
     box-sizing: border-box;
 }
 
-div {
+.row > div{
     border-radius: 30px;
     background-color: #9dc2fa;
     padding: 20px;

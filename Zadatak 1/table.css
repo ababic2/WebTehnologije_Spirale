@@ -4,6 +4,10 @@ table.lectures {
     width: 500px;
     table-layout: auto;
     border-collapse: collapse;
+    margin-top: 50px;
+    margin-left:auto;
+    margin-right:auto;
+    position: relative;
 }
 
 .leftShift {
