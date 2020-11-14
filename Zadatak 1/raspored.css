@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Cantarell);
 table.lectures {
-    height: 300px;
-    width: 500px;
+    height: 90%;
+    width: 50%;
     table-layout: auto;
     border-collapse: collapse;
     margin-top: 50px;
@@ -28,6 +28,11 @@ td{
     text-align: center;
     font-size: 10px;
     font-family: Cantarell, Arial, sans-serif;
+}
+
+th {
+    width: 30px;
+    height: 30px;
 }
 
 td.evenColspan {
