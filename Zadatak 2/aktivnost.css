@@ -4,28 +4,6 @@ body {
     background: linear-gradient(180deg, #9dc2fa 0%,#cadffc 40%, #cfe2fc 100%) no-repeat center fixed;
     background-size: cover;
 }
-.rcorners {
-    position: relative;
-    border-radius: 50px;
-    border: 3px solid #1e7b96;
-    padding-top: 50px;
-    width: 300px;
-    height: 300px;
-    text-align: center;
-    bottom: 0;
-}
-
-.rcorners2 {
-    position: relative;
-    border-radius: 20px;
-    border: 3px solid #1e7b96;
-    padding-top: 30px;
-    width: 350px;
-    height: 380px;
-    text-align: center;
-    bottom: 0;
-}
-
 p.aktivnost{
     text-align: center;
     vertical-align: bottom;
@@ -38,48 +16,70 @@ p.predmet {
     font-size: 25px;
 }
 
-.glavni {
-    left: auto;
-    right: auto;
+.rcorners {
+    display: inline-block;
+    border-radius: 50px;
+    border: 3px solid #1e7b96;
+    padding-top: 50px;
+    width: 300px;
+    height: 300px;
+    text-align: center;
+    bottom: 0;
+}
+
+.rcorners2 {
+    display: inline-block;
+    border-radius: 20px;
+    border: 3px solid #1e7b96;
+    padding-top: 30px;
+    width: 350px;
+    height: 380px;
+    text-align: center;
+    bottom: 0;
 }
 
 .glavni > * {
-    /*height: 100%;*/
     display: inline-block;
-    /*flex-direction: row;*/
-    align-items: center;
     font-family: Cantarell, serif;
     color: #1e7b96;
     vertical-align: bottom;
-    justify-content: center;
-    padding-top: 150px;
-
-    /*top: 0;*/
-    /*bottom: 0;*/
-    margin: 0;
-    transform: translate(250px);
-    /*flex-direction: column;*/
 }
 
-.cellContainer {
-    padding-left: 10px;
+.glavni {
+    text-align: center;
+    transform: translateY(50%);
 }
 
 @media only screen and (max-width: 600px) {
     #prethodnaAktivnost {
-        /*visibility: hidden;*/
         display: none;
+    }
+    .rcorners {
+        display: block;
+        border-radius: 50px;
+        border: 3px solid #1e7b96;
+        padding-top: 50px;
+        width: 300px;
+        height: 300px;
+        text-align: center;
+        bottom: 0;
+    }
+
+    .rcorners2 {
+        display: block;
+        border-radius: 20px;
+        border: 3px solid #1e7b96;
+        padding-top: 30px;
+        width: 350px;
+        height: 380px;
+        text-align: center;
+        bottom: 0;
     }
     .glavni >* {
         height: 100%;
-        display: flex;
-        /*align-items: center;*/
+        display: block;
         font-family: Cantarell, serif;
         color: #1e7b96;
-        /*vertical-align: bottom;*/
-        /*justify-content: center;*/
-        /*padding-top: 150px;*/
-        /*transform: translate(250px);*/
         z-index: 1;
     }
 }
