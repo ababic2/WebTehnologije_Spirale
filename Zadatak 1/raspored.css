@@ -1,13 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Cantarell);
 table.lectures {
-    height: 90%;
-    width: 50%;
     table-layout: auto;
     border-collapse: collapse;
-    margin-top: 50px;
+    margin-top: 80px;
     margin-left:auto;
     margin-right:auto;
     position: relative;
+    border-spacing: 0;
+}
+td > div {
+    float: right;
 }
 
 .leftShift {
@@ -23,15 +25,15 @@ table.lectures {
 }
 
 td{
-    width: 30px;
-    height: 50px;
+    width: 10px;
+    height: 30px;
     text-align: center;
     font-size: 10px;
     font-family: Cantarell, Arial, sans-serif;
 }
 
 th {
-    width: 30px;
+    width: 10px;
     height: 30px;
 }
 
@@ -81,17 +83,52 @@ td.allSolid {
     padding-right: 10px;
 }
 
-.even {
+td.even {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     background-color: #e6e6e6;
 }
 
-.odd {
+td.odd {
     border-right: 1px dashed;
     border-left: 1px solid black;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     background-color: #e6e6e6;
+}
+
+@media only screen and (max-width: 600px) {
+    thead th:not(:first-child) {
+        display: none;
+    }
+
+    td, th {
+        display: block;
+    }
+
+    td[data-th]:before  {
+        content: attr(data-th);
+    }
+    td:empty {
+        display: none;
+    }
+
+    .leftShift {
+        display: none;
+    }
+
+    td, th {
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    .days {
+        margin-top: -1px;
+        padding-top: 1px;
+        text-align: center;
+        border: 10px solid black;
+    }
 }

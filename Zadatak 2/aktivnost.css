@@ -1,9 +1,16 @@
 @import url(https://fonts.googleapis.com/css?family=Cantarell);
-
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
 body {
     background: linear-gradient(180deg, #9dc2fa 0%,#cadffc 40%, #cfe2fc 100%) no-repeat center fixed;
     background-size: cover;
+    width: 100%;
+    height: 100%;
 }
+
 p.aktivnost{
     text-align: center;
     vertical-align: bottom;
@@ -16,29 +23,30 @@ p.predmet {
     font-size: 25px;
 }
 
+.cellContainer {
+    box-sizing: border-box;
+}
 .rcorners {
+    box-sizing: border-box;
     display: inline-block;
     border-radius: 50px;
     border: 3px solid #1e7b96;
-    padding-top: 50px;
-    width: 300px;
-    height: 300px;
+    padding: 30px;
     text-align: center;
-    bottom: 0;
 }
 
 .rcorners2 {
+    box-sizing: border-box;
     display: inline-block;
     border-radius: 20px;
     border: 3px solid #1e7b96;
-    padding-top: 30px;
-    width: 350px;
-    height: 380px;
     text-align: center;
-    bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 30px;
 }
 
 .glavni > * {
+    box-sizing: border-box;
     display: inline-block;
     font-family: Cantarell, serif;
     color: #1e7b96;
@@ -48,34 +56,37 @@ p.predmet {
 .glavni {
     text-align: center;
     transform: translateY(50%);
+    width: 100%;
 }
 
 @media only screen and (max-width: 600px) {
     #prethodnaAktivnost {
         display: none;
+        height: 0px;
+        overflow: hidden;
     }
     .rcorners {
+        position: static;
         display: block;
         border-radius: 50px;
         border: 3px solid #1e7b96;
-        padding-top: 50px;
-        width: 300px;
+        max-width: 300px;
         height: 300px;
         text-align: center;
-        bottom: 0;
+        margin: auto;
     }
 
     .rcorners2 {
+        position: static;
         display: block;
         border-radius: 20px;
         border: 3px solid #1e7b96;
-        padding-top: 30px;
-        width: 350px;
+        max-width: 350px;
         height: 380px;
         text-align: center;
-        bottom: 0;
+        margin: auto;
     }
-    .glavni >* {
+    .glavni > * {
         height: 100%;
         display: block;
         font-family: Cantarell, serif;
