@@ -1,5 +1,5 @@
 input[type=text], select, input[type = time]{
-    width: 85%;
+    width: 75%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -9,12 +9,11 @@ input[type=text], select, input[type = time]{
 }
 
 .row > div{
-    border-radius: 30px;
+    max-width: 1000px;
+    border-radius: 40px;
     background-color: #9dc2fa;
     padding: 20px;
-    align-items: center;
-    alignment: center;
-    text-align: center;
+    margin: auto;
 }
 
 body, html {
@@ -31,13 +30,14 @@ body {
 }
 
 label {
-    min-width: 100px;
+    min-width: 120px;
     display: inline-block;
     text-align: left;
-    padding-top: 40px;
+    /*padding-top: 40px;*/
 }
 @media only screen and (max-width: 600px) {
     label{
         display: block;
+        padding-top: 20px;
     }
 }
