@@ -69,6 +69,14 @@ td.allDashed {
     background-color: #e6e6e6;
 }
 
+td.rightLeftDashed {
+    border-right: 1px dashed black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px dashed black;
+    background-color: #e6e6e6;
+}
+
 td.allSolid {
     border-right: 1px solid black;
     border-top: 1px solid black;
