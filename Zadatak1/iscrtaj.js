@@ -150,12 +150,12 @@ function defineBorders(timeStart, timeEnd) {
     return s;
 }
 
-function setSpanAndDeleteNeedlessCells(x, startCell, buildName, endCell, row, count) {
+function setSpanAndDeleteNeedlessCells(raspored, x, startCell, buildName, endCell, row, count) {
     x[startCell].innerHTML = buildName;
     x[startCell].colSpan = count;
 
-    let cells = document.getElementsByTagName("table")[0].rows[row].cells;
-    let specificRow = document.getElementsByTagName("table")[0].rows[row];
+    let cells = raspored.getElementsByTagName("table")[0].rows[row].cells;
+    let specificRow = raspored.getElementsByTagName("table")[0].rows[row];
     for (let i = 1; i <  count; i++) {
         specificRow.deleteCell(cells.length - i);
     }
@@ -181,8 +181,8 @@ function findMatchingRowForDay(dan) {
     return row;
 }
 
-function clearAllBordersInRow(row, cells) {
-    let tableRows = document.getElementsByTagName("table")[0].getElementsByTagName("tr");
+function clearAllBordersInRow(raspored, row, cells) {
+    let tableRows = raspored.getElementsByTagName("table")[0].getElementsByTagName("tr");
     for (let i = 1; i < tableRows.length; i++) {
         let y = tableRows[i].getElementsByTagName("td");
         for (let j = 1; j < y.length; j++) {
@@ -244,7 +244,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
             if (startCell === -1 || endCell === -1) {
                 window.alert("Greška - u rasporedu ne postoji dan ili vrijeme u kojem pokušavate dodati termin")
             } else {
-                let tableRows = clearAllBordersInRow(row, cells);
+                let tableRows = clearAllBordersInRow(raspored, row, cells);
 
                 function findSpan() {
                     let found = false;
@@ -278,8 +278,8 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
                 //obrisi u nizu iskoristene celije
                 cells.splice(deleteFrom, count)
 
-                let x = document.getElementsByTagName("table")[0].rows[row].cells;
-                setSpanAndDeleteNeedlessCells(x, startCell, buildName, endCell, row, count);
+                let x = raspored.getElementsByTagName("table")[0].rows[row].cells;
+                setSpanAndDeleteNeedlessCells(raspored, x, startCell, buildName, endCell, row, count);
 
                 function updateBorders() {
                     //skip from cells array
