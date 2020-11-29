@@ -38,8 +38,8 @@ function fillArrayOfHours(startTime, endTime ) {
         mapa.set(3, JSON.parse(JSON.stringify(cellsInitial)))
         mapa.set(4, JSON.parse(JSON.stringify(cellsInitial)))
     }
-
     setMapAndDeepCopyOfArrays();
+    cellsInitial = [];
     return hours;
 }
 
@@ -240,6 +240,9 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
             }
 
             findStartEndIndexForCell();
+            // window.alert("CELLS " + startCell + " " + endCell)
+            // for(let i = 0; i < cells.length; i++)
+            //     window.alert(cells[i].index + " " + cells[i].start + " " + cells[i].end)
 
             if (startCell === -1 || endCell === -1) {
                 window.alert("Greška - u rasporedu ne postoji dan ili vrijeme u kojem pokušavate dodati termin")
