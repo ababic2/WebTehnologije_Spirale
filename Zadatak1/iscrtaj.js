@@ -198,118 +198,121 @@ function clearAllBordersInRow(row, cells) {
     return tableRows;
 }
 
-function dodajAktivnost(okvir, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
-    let buildName = naziv.bold() + "<br />" + tip.toString();
-    let startCell = 0;
-    let endCell = 0;
-    let exist = false;
-    let deleteFrom = 0;
-    let deleteTo = 0;
-    let count = 0;
+function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
+    if(raspored.getElementsByTagName("table") == null) {
+        window.alert("Greška-raspored nije kreiran")
+    } else {
+        let buildName = naziv.bold() + "<br />" + tip.toString();
+        let startCell = 0;
+        let endCell = 0;
+        let exist = false;
+        let deleteFrom = 0;
+        let deleteTo = 0;
+        let count = 0;
 
-    let row = findMatchingRowForDay(dan);
-    let cells = mapa.get(row);
-    let tableRows = clearAllBordersInRow(row, cells);
+        let row = findMatchingRowForDay(dan);
+        let cells = mapa.get(row);
+        let tableRows = clearAllBordersInRow(row, cells);
 
-    function findStartEndIndexForCell() {
-        for (let i = 0; i < cells.length; i++) {
-            if (cells[i].start === vrijemePocetak) {
-                startCell = cells[i].index;
-                for (let j = i; j < cells.length; j++) {
-                    if (cells[j].end === vrijemeKraj) {
-                        endCell = cells[j].index;
-                        deleteTo = j;
-                        exist = true;
+        function findStartEndIndexForCell() {
+            for (let i = 0; i < cells.length; i++) {
+                if (cells[i].start === vrijemePocetak) {
+                    startCell = cells[i].index;
+                    for (let j = i; j < cells.length; j++) {
+                        if (cells[j].end === vrijemeKraj) {
+                            endCell = cells[j].index;
+                            deleteTo = j;
+                            exist = true;
+                            break;
+                        }
+                    }
+                    //if(!exist) alert
+                    if (exist) {
+                        deleteFrom = i;
                         break;
                     }
-                }
-                //if(!exist) alert
-                if (exist) {
-                    deleteFrom = i;
-                    break;
                 }
             }
         }
-    }
 
-    findStartEndIndexForCell();
+        findStartEndIndexForCell();
 
-    function findSpan() {
-        let found = false;
-        for (let i = 0; i < cells.length; i++) {
-            if (cells[i].index === startCell) {
-                count++;
-                for (let j = i; j < cells.length; j++) {
-                    if (cells[j].index === endCell) {
-                        found = true;
-                        break;
-                    }
+        function findSpan() {
+            let found = false;
+            for (let i = 0; i < cells.length; i++) {
+                if (cells[i].index === startCell) {
                     count++;
-                }
-            }
-            if (found === true) break;
-        }
-    }
-
-    findSpan();
-
-    function updateInnerIndexOfArrayObjects() {
-        let step = 1;
-        for (let i = deleteTo + 1; i < cells.length; i++) {
-            cells[i].index = startCell + step;
-            step++;
-        }
-    }
-
-    updateInnerIndexOfArrayObjects();
-
-    //obrisi u nizu iskoristene celije
-    cells.splice(deleteFrom,count)
-
-    let x = document.getElementsByTagName("table")[0].rows[row].cells;
-    setSpanAndDeleteNeedlessCells(x, startCell, buildName, endCell, row, count);
-
-    function updateBorders() {
-        //skip from cells array
-        for (let i = 1; i < tableRows.length; i++) {
-            var y = tableRows[i].getElementsByTagName("td")
-            for (let j = 1; j < y.length; j++) {
-                if (j % 2 !== 0) {
-                    if(i === row) {
-                        for (let k = 0; k < cells.length; k++)
-                            if (j === cells[k].index) {
-                                y[j].className = defineBorders(cells[k].start, cells[k].end);
-                                break;
-                            }
+                    for (let j = i; j < cells.length; j++) {
+                        if (cells[j].index === endCell) {
+                            found = true;
+                            break;
+                        }
+                        count++;
                     }
                 }
-                else {
-                    if(i === row) {
-                        for (let k = 0; k < cells.length; k++)
-                            if (j === cells[k].index) {
-                                y[j].className = defineBorders(cells[k].start, cells[k].end);
-                                break;
-                            }
+                if (found === true) break;
+            }
+        }
+
+        findSpan();
+
+        function updateInnerIndexOfArrayObjects() {
+            let step = 1;
+            for (let i = deleteTo + 1; i < cells.length; i++) {
+                cells[i].index = startCell + step;
+                step++;
+            }
+        }
+
+        updateInnerIndexOfArrayObjects();
+
+        //obrisi u nizu iskoristene celije
+        cells.splice(deleteFrom, count)
+
+        let x = document.getElementsByTagName("table")[0].rows[row].cells;
+        setSpanAndDeleteNeedlessCells(x, startCell, buildName, endCell, row, count);
+
+        function updateBorders() {
+            //skip from cells array
+            for (let i = 1; i < tableRows.length; i++) {
+                var y = tableRows[i].getElementsByTagName("td")
+                for (let j = 1; j < y.length; j++) {
+                    if (j % 2 !== 0) {
+                        if (i === row) {
+                            for (let k = 0; k < cells.length; k++)
+                                if (j === cells[k].index) {
+                                    y[j].className = defineBorders(cells[k].start, cells[k].end);
+                                    break;
+                                }
+                        }
+                    } else {
+                        if (i === row) {
+                            for (let k = 0; k < cells.length; k++)
+                                if (j === cells[k].index) {
+                                    y[j].className = defineBorders(cells[k].start, cells[k].end);
+                                    break;
+                                }
+                        }
                     }
                 }
             }
         }
-    }
 
-    updateBorders();
-    let s = defineBorders(vrijemePocetak,vrijemeKraj);
-    x[startCell].className = s;
-    x[startCell].style.backgroundColor = "#dee6ef";
+        updateBorders();
+        let s = defineBorders(vrijemePocetak, vrijemeKraj);
+        x[startCell].className = s;
+        x[startCell].style.backgroundColor = "#dee6ef";
+    }
 }
 
 let okvir = document.getElementById("okvir");
 iscrtajRaspored(okvir, ["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"],8, 21);
-// dodajAktivnost(okvir,"WT","predavanje",-1,12,"Ponedjeljak");
-// dodajAktivnost(okvir,"WT","vježbe",12,13.5,"Ponedjeljak");
-// dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak");
-// dodajAktivnost(okvir,"RMA","KOKOLO",17.5,19.5,"Ponedjeljak");
-// dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak");
-// dodajAktivnost(okvir,"DM","tutorijal",14,16,"Utorak");
-// dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak");
+dodajAktivnost(okvir,"WT","predavanje",9,12,"Ponedjeljak");
+dodajAktivnost(okvir,"WT","vježbe",12,13.5,"Ponedjeljak");
+dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak");
+dodajAktivnost(okvir,"RMA","KOKOLO",17.5,19.5,"Ponedjeljak");
+dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak");
+dodajAktivnost(okvir,"DM","tutorijal",14,16,"Utorak");
+dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak");
 // dodajAktivnost(okvir,"OI","predavanje",12,15,"Ponedjeljak");
 
