@@ -1,6 +1,15 @@
 let assert = chai.assert;
 describe('Raspored', function() {
     describe('dodajAktivnost()', function() {
+        it('table not created', function() {
+            let okvir = document.getElementById("okvir4");
+            Raspored.dodajAktivnost(okvir, "WT", "predavanje", 10, 25, "Ponedjeljak");
+            let tabele = okvir.getElementsByTagName("table").length;
+            let result = false;
+            if(tabele === 0) result = true;
+            assert.equal(result, true,"cannot add lecture if there is no schedule");
+        });
+
         it('should add lecture starting at 10, ending at 12', function() {
             let okvir = document.getElementById("okvir");
             Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
@@ -38,6 +47,150 @@ describe('Raspored', function() {
             assert.equal(result, true,"should add lecture starting at 10, ending at 12");
         });
 
+        it('validation of start time - decimal type', function() {
+            let okvir = document.getElementById("okvir3");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
+            Raspored.dodajAktivnost(okvir, "WT", "predavanje", 10.6, 12, "Ponedjeljak");
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[1].getElementsByTagName("td");
+            let result = true;
+            for(let i = 0; i < kolone.length; i++){
+                if(i === 1) {
+                    if(kolone[i].textContent === "WTpredavanje")
+                        result = false;
+                }
+            }
+            assert.equal(result, true,"time is integer or has format x.5");
+        });
+
+        it('validation of start time - negative', function() {
+            let okvir = document.getElementById("okvir3");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
+            Raspored.dodajAktivnost(okvir, "WT", "predavanje", -10, 12, "Ponedjeljak");
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[1].getElementsByTagName("td");
+            let result = true;
+            for(let i = 0; i < kolone.length; i++){
+                if(i === 1) {
+                    if(kolone[i].textContent === "WTpredavanje")
+                        result = false;
+                }
+            }
+            assert.equal(result, true,"time cannot be negative");
+        });
+
+        it('validation of start time - bigger than 24', function() {
+            let okvir = document.getElementById("okvir3");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
+            Raspored.dodajAktivnost(okvir, "WT", "predavanje", 25, 12, "Ponedjeljak");
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[1].getElementsByTagName("td");
+            let result = true;
+            for(let i = 0; i < kolone.length; i++){
+                if(i === 1) {
+                    if(kolone[i].textContent === "WTpredavanje")
+                        result = false;
+                }
+            }
+            assert.equal(result, true,"time out of range");
+        });
+
+        it('validation of start time - bigger than end time', function() {
+            let okvir = document.getElementById("okvir3");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
+            Raspored.dodajAktivnost(okvir, "WT", "predavanje", 15, 12, "Ponedjeljak");
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[1].getElementsByTagName("td");
+            let result = true;
+            for(let i = 0; i < kolone.length; i++){
+                if(i === 1) {
+                    if(kolone[i].textContent === "WTpredavanje")
+                        result = false;
+                }
+            }
+            assert.equal(result, true,"time cannot be negative");
+        });
+
+        it('validation of end time - negative', function() {
+            let okvir = document.getElementById("okvir3");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
+            Raspored.dodajAktivnost(okvir, "WT", "predavanje", 10, -12, "Ponedjeljak");
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[1].getElementsByTagName("td");
+            let result = true;
+            for(let i = 0; i < kolone.length; i++){
+                if(i === 1) {
+                    if(kolone[i].textContent === "WTpredavanje")
+                        result = false;
+                }
+            }
+            assert.equal(result, true,"time cannot be negative");
+        });
+
+        it('validation of end time - decimal type', function() {
+            let okvir = document.getElementById("okvir3");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
+            Raspored.dodajAktivnost(okvir, "WT", "predavanje", 10, 12.8, "Ponedjeljak");
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[1].getElementsByTagName("td");
+            let result = true;
+            for(let i = 0; i < kolone.length; i++){
+                if(i === 1) {
+                    if(kolone[i].textContent === "WTpredavanje")
+                        result = false;
+                }
+            }
+            assert.equal(result, true,"time is integer or has format x.5");
+        });
+
+        it('validation of end time - bigger than 24', function() {
+            let okvir = document.getElementById("okvir3");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
+            Raspored.dodajAktivnost(okvir, "WT", "predavanje", 10, 25, "Ponedjeljak");
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[1].getElementsByTagName("td");
+            let result = true;
+            for(let i = 0; i < kolone.length; i++){
+                if(i === 1) {
+                    if(kolone[i].textContent === "WTpredavanje")
+                        result = false;
+                }
+            }
+            assert.equal(result, true,"time out of range");
+        });
+
+        it('matching terms', function() {
+            let okvir = document.getElementById("okvir3");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
+            Raspored.dodajAktivnost(okvir, "WT", "predavanje", 10, 25, "Ponedjeljak");
+            Raspored.dodajAktivnost(okvir, "RG", "predavanje", 10, 25, "Ponedjeljak");
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[1].getElementsByTagName("td");
+            let result = true;
+            for(let i = 0; i < kolone.length; i++){
+                if(i === 1) {
+                    if(kolone[i].textContent === "RGpredavanje")
+                        result = false;
+                }
+            }
+            assert.equal(result, true,"lectures cannot match by terms");
+        });
 
     });
 });

@@ -3,11 +3,10 @@ let Raspored = (function () {
     var krajSata;
     var cellsInitial = []
     let mapa = new Map()
-
-    const fillArrayOfHours = function(startTime, endTime) {
+    const fillArrayOfHours = function(startTime, endTime ) {
         let hours = [];
         let j = 0
-        for (let i = startTime; i < endTime; i++) {
+        for(let i = startTime; i < endTime; i++) {
             let build = "";
             let half = "";
             if (/^\d$/.test(i)) {
@@ -33,24 +32,22 @@ let Raspored = (function () {
             cellsInitial.push(cell)
             j++;
         }
-
         function setMapAndDeepCopyOfArrays() {
-            mapa.set(0, JSON.parse(JSON.stringify(cellsInitial)))
             mapa.set(1, JSON.parse(JSON.stringify(cellsInitial)))
             mapa.set(2, JSON.parse(JSON.stringify(cellsInitial)))
             mapa.set(3, JSON.parse(JSON.stringify(cellsInitial)))
             mapa.set(4, JSON.parse(JSON.stringify(cellsInitial)))
+            mapa.set(5, JSON.parse(JSON.stringify(cellsInitial)))
         }
-
         setMapAndDeepCopyOfArrays();
         cellsInitial = [];
         return hours;
     }
 
-    const showHour = function (sat) {
+    const showHour = function(sat) {
         let result = sat.split(":");
         let i = 0;
-        if ((result[i] === "00" || result[i] === "02" || result[i] === "04" || result[i] === "06" || result[i] === "08"
+        if((result[i] === "00" || result[i] === "02" || result[i] === "04" || result[i] === "06" || result[i] === "08"
             || result[i] === "10" || result[i] === "12" || result[i] === "15" || result[i] === "17" || result[i] === "19"
             || result[i] === "21" || result[i] === "23") && result[1] === "00") {
             return true;
@@ -86,27 +83,27 @@ let Raspored = (function () {
         return td;
     }
 
-    const numberOfCells = function(startTime, endTime) {
+    const numberOfCells = function(startTime, endTime){
         let count = 0
-        for (let i = startTime; i <= endTime; i += 0.5) {
+        for(let i = startTime; i <= endTime; i += 0.5 ) {
             count++;
         }
         return count;
     }
 
-    const iscrtajRaspored = function(okvir, dani, satPocetak, satKraj) {
+    const iscrtajRaspored = function(okvir, dani, satPocetak, satKraj){
         function timeValidation() {
             if (satPocetak >= satKraj ||
                 (satPocetak < 0 || satPocetak > 24) ||
                 (satKraj < 0 || satKraj > 24) ||
-                !Number.isInteger(satKraj) ||
-                !Number.isInteger(satPocetak)) {
+                !Number.isInteger(satKraj)||
+                !Number.isInteger(satPocetak)){
                 return false;
             }
             return true;
         }
 
-        if (timeValidation()) {
+        if(timeValidation()) {
             let td;
             pocetakSata = satPocetak;
             krajSata = satKraj;
@@ -150,7 +147,7 @@ let Raspored = (function () {
             s = "allSolid";
         } else if (!Number.isInteger(timeStart) && Number.isInteger(timeEnd)) {
             s = "leftDashed";
-        } else if (Number.isInteger(timeStart) && !Number.isInteger(timeEnd)) {
+        } else if(Number.isInteger(timeStart) && !Number.isInteger(timeEnd)){
             s = "rightDashed";
         }
         return s;
@@ -162,21 +159,22 @@ let Raspored = (function () {
 
         let cells = raspored.getElementsByTagName("table")[0].rows[row].cells;
         let specificRow = raspored.getElementsByTagName("table")[0].rows[row];
-        for (let i = 1; i < count; i++) {
-            specificRow.deleteCell(cells.length - i);
-        }
+        // for (let i = 1; i <  count; i++) {
+        //     specificRow.deleteCell(cells.length - i);
+        // }
     }
 
     const findMatchingRowForDay = function(dan) {
         let row = 0;
         for (let i = 1; i <= 5; i++) {
             let x = document.getElementsByTagName("table")[0].rows[i].cells;
-            if (i === 1) {
+            if(i ===1 ) {
                 if (x[0].children[0].innerHTML === dan.toString()) {
                     row = i;
                     break;
                 }
-            } else {
+            }
+            else {
                 if (x[0].innerHTML === dan.toString()) {
                     row = i;
                     break;
@@ -191,7 +189,7 @@ let Raspored = (function () {
         for (let i = 1; i < tableRows.length; i++) {
             let y = tableRows[i].getElementsByTagName("td");
             for (let j = 1; j < y.length; j++) {
-                if (i === row) {
+                if(i === row) {
                     for (let k = 0; k < cells.length; k++)
                         if (j === cells[k].index) {
                             y[j].className = "clearAll";
@@ -203,8 +201,8 @@ let Raspored = (function () {
         return tableRows;
     }
 
-    const dodajAktivnost = function (raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan) {
-        if (raspored.getElementsByTagName("table").length === 0) {
+    const dodajAktivnost = function(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
+        if(raspored.getElementsByTagName("table").length === 0) {
             window.alert("Greška-raspored nije kreiran")
         } else {
             if ((vrijemePocetak > 0 && vrijemePocetak < 24) &&
@@ -267,7 +265,6 @@ let Raspored = (function () {
                             if (found === true) break;
                         }
                     }
-
                     findSpan();
 
                     function updateInnerIndexOfArrayObjects() {
@@ -317,7 +314,8 @@ let Raspored = (function () {
                     x[startCell].className = s;
                     x[startCell].style.backgroundColor = "#dee6ef";
                 }
-            } else {
+            }
+            else {
                 window.alert("Greška - u rasporedu ne postoji dan ili vrijeme u kojem pokušavate dodati termin")
             }
         }
