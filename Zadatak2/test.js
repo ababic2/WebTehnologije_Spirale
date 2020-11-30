@@ -3,6 +3,62 @@ describe('Raspored', function() {
     describe('iscrtajRaspored()', function() {
 
         // PROVJERA ISCRTAVANJA REDOVA I KOLONA
+        it('pocetno vrijeme ne smije biti negativno', function() {
+            let okvir2 = document.getElementById("okvir");
+            Raspored.iscrtajRaspored(okvir2, ["Ponedjeljak", "Utorak", "Srijeda"], -1, 21);
+            let result = false;
+            if(okvir2.children[0].textContent === "Greška") {
+                result = true;
+            } else {
+                result = false;
+            }
+            assert.equal(result, true,"vrijeme ne smije biti negativno");
+        });
+        it('krajnje vrijeme ne smije biti negativno', function() {
+            let okvir = document.getElementById("okvir");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 8, -21);
+            let result = false;
+            if(okvir.children[0].textContent === "Greška") {
+                result = true;
+            } else {
+                result = false;
+            }
+            assert.equal(result, true,"krajnje vrijeme ne smije biti negativno");
+        });
+
+        it('pocetno vrijeme treba biti integer', function() {
+            let okvir = document.getElementById("okvir");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 8.5, 21);
+            let result = false;
+            if(okvir.children[0].textContent === "Greška") {
+                result = true;
+            } else {
+                result = false;
+            }
+            assert.equal(result, true,"vrijeme treba biti integer");
+        });
+        it('krajnje vrijeme treba biti integer', function() {
+            let okvir = document.getElementById("okvir");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 8, -21);
+            let result = false;
+            if(okvir.children[0].textContent === "Greška") {
+                result = true;
+            } else {
+                result = false;
+            }
+            assert.equal(result, true,"krajnje vrijeme treba biti integer");
+        });
+        it('pocetno vrijeme treba biti manje od krajnjeg', function() {
+            let okvir = document.getElementById("okvir");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 12, 8);
+            let result = false;
+            if(okvir.children[0].textContent === "Greška") {
+                result = true;
+            } else {
+                result = false;
+            }
+            assert.equal(result, true,"pocetno vrijeme treba biti manje od krajnjeg");
+        });
         it('should draw 6(days + time) rows when there are 5 days', function() {
             let okvir = document.getElementById("okvir");
             Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);
@@ -46,6 +102,45 @@ describe('Raspored', function() {
                 if(stil.display!=='none') brojPrikazanih++;
             }
             assert.equal(brojPrikazanih, 23,"Broj kolona treba biti 23");
+        });
+        it('display time only for values 8, 10, 12', function() {
+            // prikazuju se vremena ako je vrijednost jedna od sljedecih
+            // 0,2,4,6,8,10,12,15,17,19,21,23
+            let okvir = document.getElementById("okvir");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 8, 21);
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[0].getElementsByTagName("td");
+            let result = true;
+            for(let i = 0;i < kolone.length; i++){
+                result = kolone[i].children[0].textContent === "08:00" ||
+                    kolone[i].children[0].textContent === "10:00" ||
+                    kolone[i].children[0].textContent === "12:00" ||
+                    kolone[i].children[0].textContent === "";
+                if(result === false) break;
+            }
+            assert.equal(result, true,"Trebaju  biti prikazana vremena samo za vrijednosti 8,10,12");
+        });
+        it('do not display time only for value 21', function() {
+            let okvir = document.getElementById("okvir");
+            Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 8, 21);
+            let tabele = document.getElementsByTagName("table");
+            let tabela = tabele[tabele.length-1]
+            let redovi = tabela.getElementsByTagName("tr");
+            let kolone = redovi[0].getElementsByTagName("td");
+            let result = true;
+                for(let i = 0;i < kolone.length; i++) {
+                if (i === kolone.length - 1) {
+                    if (kolone[i].children[0].textContent === "") {
+                        result = true;
+                    } else {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+            assert.equal(result, true,"Ne treba biti prikazano vrijeme za vrijednost 21 jer je zadnja");
         });
     });
 });
