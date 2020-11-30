@@ -2,8 +2,7 @@ let assert = chai.assert;
 describe('Raspored', function() {
     describe('iscrtajRaspored()', function() {
 
-        // PROVJERA ISCRTAVANJA REDOVA I KOLONA
-        it('pocetno vrijeme ne smije biti negativno', function() {
+        it('start time cannot be negative', function() {
             let okvir2 = document.getElementById("okvir");
             Raspored.iscrtajRaspored(okvir2, ["Ponedjeljak", "Utorak", "Srijeda"], -1, 21);
             let result = false;
@@ -14,7 +13,7 @@ describe('Raspored', function() {
             }
             assert.equal(result, true,"vrijeme ne smije biti negativno");
         });
-        it('krajnje vrijeme ne smije biti negativno', function() {
+        it('end time cannot be negative', function() {
             let okvir = document.getElementById("okvir");
             Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 8, -21);
             let result = false;
@@ -26,7 +25,7 @@ describe('Raspored', function() {
             assert.equal(result, true,"krajnje vrijeme ne smije biti negativno");
         });
 
-        it('pocetno vrijeme treba biti integer', function() {
+        it('start time should be integer', function() {
             let okvir = document.getElementById("okvir");
             Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 8.5, 21);
             let result = false;
@@ -37,7 +36,7 @@ describe('Raspored', function() {
             }
             assert.equal(result, true,"vrijeme treba biti integer");
         });
-        it('krajnje vrijeme treba biti integer', function() {
+        it('end time should be integer', function() {
             let okvir = document.getElementById("okvir");
             Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 8, -21);
             let result = false;
@@ -48,7 +47,7 @@ describe('Raspored', function() {
             }
             assert.equal(result, true,"krajnje vrijeme treba biti integer");
         });
-        it('pocetno vrijeme treba biti manje od krajnjeg', function() {
+        it('start time should be less than end time', function() {
             let okvir = document.getElementById("okvir");
             Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda"], 12, 8);
             let result = false;
@@ -59,6 +58,7 @@ describe('Raspored', function() {
             }
             assert.equal(result, true,"pocetno vrijeme treba biti manje od krajnjeg");
         });
+
         it('should draw 6(days + time) rows when there are 5 days', function() {
             let okvir = document.getElementById("okvir");
             Raspored.iscrtajRaspored(okvir, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 8, 21);

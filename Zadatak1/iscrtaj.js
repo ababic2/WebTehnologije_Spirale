@@ -135,7 +135,6 @@ function iscrtajRaspored(okvir, dani, satPocetak, satKraj){
         let div = document.createElement("div");
         div.appendChild(document.createTextNode("Greška"));
         okvir.appendChild(div);
-        // okvir.appendChild(document.createTextNode("Greška"));
     }
 }
 
