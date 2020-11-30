@@ -8,24 +8,26 @@ function poziv1() {
     dodajAktivnost(okvir, "RMA", "vježbe", 12.5, 14, "Utorak");
     dodajAktivnost(okvir, "DM", "tutorijal", 14, 16, "Utorak");
     dodajAktivnost(okvir, "DM", "predavanje", 16, 19, "Utorak");
-
-    dodajAktivnost(okvir, "RPR", "predavanje", 16, 19.5, "Četvrtak");//belaaaj
-    dodajAktivnost(okvir, "RPR", "predavanje", 9.5, 15.5, "Srijeda");
-    dodajAktivnost(okvir, "RPR", "predavanje", 17.5, 20.5, "Srijeda");
-
-    dodajAktivnost(okvir, "RPR", "predavanje", 9, 12, "Petak");
+    dodajAktivnost(okvir, "TP", "predavanje", 9.5, 15.5, "Srijeda");
+    dodajAktivnost(okvir, "OBP", "predavanje", 17.5, 20.5, "Srijeda");
+    dodajAktivnost(okvir, "IM", "predavanje", 16, 19.5, "Četvrtak");
+    dodajAktivnost(okvir, "LAG", "predavanje", 9, 12, "Petak");
+    dodajAktivnost(okvir, "US", "predavanje", 15, 21, "Petak");
 }
 poziv1();
 
-// function poziv2() {
-//     let okver = document.getElementById("okviir");
-//     iscrtajRaspored(okver, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 9, 21);
-//     dodajAktivnost(okver, "WT", "predavanje", 10, 12, "Ponedjeljak");
-//     dodajAktivnost(okver, "WT", "vježbe", 13, 14, "Ponedjeljak");
-//     dodajAktivnost(okver, "RMA", "predavanje", 14.5, 17, "Ponedjeljak");
-//     dodajAktivnost(okver, "LD", "tutorijal", 17, 19.5, "Ponedjeljak");
-//     dodajAktivnost(okver, "RMA", "vježbe", 12.5, 14, "Utorak");
-//     dodajAktivnost(okver, "DM", "tutorijal", 14, 16, "Utorak");
-//     dodajAktivnost(okver, "DM", "predavanje", 16, 19, "Utorak");
-// }
-// poziv2()
+function poziv2() {
+    let okver = document.getElementById("okviir");
+    iscrtajRaspored(okver, ["Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak"], 10, 21);
+    dodajAktivnost(okver, "WT", "predavanje", 10, 12, "Ponedjeljak");
+    dodajAktivnost(okver, "WT", "vježbe", 13, 14, "Ponedjeljak");
+    dodajAktivnost(okver, "RMA", "predavanje", 14.5, 17, "Ponedjeljak");
+    dodajAktivnost(okver, "LD", "tutorijal", 17, 19.5, "Ponedjeljak");
+    dodajAktivnost(okver, "RMA", "vježbe", 12.5, 14, "Utorak");
+    dodajAktivnost(okver, "DM", "tutorijal", 14, 16, "Utorak");
+    dodajAktivnost(okver, "DM", "predavanje", 16, 19, "Utorak");
+    dodajAktivnost(okver, "RPR", "predavanje", 10.5, 20.5, "Srijeda");
+    dodajAktivnost(okver, "OIS", "predavanje", 16, 19.5, "Četvrtak");
+    dodajAktivnost(okver, "OOI", "predavanje", 15, 21, "Petak");
+}
+poziv2()
