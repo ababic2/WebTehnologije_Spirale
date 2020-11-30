@@ -32,11 +32,11 @@ function fillArrayOfHours(startTime, endTime ) {
         j++;
     }
     function setMapAndDeepCopyOfArrays() {
-        mapa.set(0, JSON.parse(JSON.stringify(cellsInitial)))
         mapa.set(1, JSON.parse(JSON.stringify(cellsInitial)))
         mapa.set(2, JSON.parse(JSON.stringify(cellsInitial)))
         mapa.set(3, JSON.parse(JSON.stringify(cellsInitial)))
         mapa.set(4, JSON.parse(JSON.stringify(cellsInitial)))
+        mapa.set(5, JSON.parse(JSON.stringify(cellsInitial)))
     }
     setMapAndDeepCopyOfArrays();
     cellsInitial = [];
@@ -158,9 +158,9 @@ function setSpanAndDeleteNeedlessCells(raspored, x, startCell, buildName, endCel
 
     let cells = raspored.getElementsByTagName("table")[0].rows[row].cells;
     let specificRow = raspored.getElementsByTagName("table")[0].rows[row];
-    for (let i = 1; i <  count; i++) {
-        specificRow.deleteCell(cells.length - i);
-    }
+    // for (let i = 1; i <  count; i++) {
+    //     specificRow.deleteCell(cells.length - i);
+    // }
 }
 
 function findMatchingRowForDay(dan) {
@@ -242,9 +242,6 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
             }
 
             findStartEndIndexForCell();
-            // window.alert("CELLS " + startCell + " " + endCell)
-            // for(let i = 0; i < cells.length; i++)
-            //     window.alert(cells[i].index + " " + cells[i].start + " " + cells[i].end)
 
             if (startCell === -1 || endCell === -1) {
                 window.alert("Greška - u rasporedu ne postoji dan ili vrijeme u kojem pokušavate dodati termin")
@@ -267,7 +264,6 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan) {
                         if (found === true) break;
                     }
                 }
-
                 findSpan();
 
                 function updateInnerIndexOfArrayObjects() {
