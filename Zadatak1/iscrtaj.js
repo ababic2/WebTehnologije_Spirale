@@ -113,7 +113,7 @@ function iscrtajRaspored(okvir, dani, satPocetak, satKraj){
 
         let sati = fillArrayOfHours(satPocetak, satKraj);
         showHour(sati[0]);
-        for (let i = 0; i <= 5; i++) {
+        for (let i = 0; i <= dani.length; i++) {
             let tr = tbl.insertRow();
             for (let j = 0; j < numberOfCells(satPocetak, satKraj); j++) {
                 if (i === 0) {
