@@ -3,18 +3,11 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const router = express.Router();
+let activity = require('./activity');
+let Aktivnost = activity.Aktivnost;
 
 function readFile(res) {
-
-    function Aktivnost(naziv, tip, pocetak, kraj, dan) {
-        this.naziv = naziv;
-        this.tip = tip;
-        this.pocetak = pocetak;
-        this.kraj = kraj;
-        this.dan = dan;
-    }
-
-    let result = [];
+        let result = [];
     let data = fs.readFileSync('aktivnosti.txt', 'utf8');
 
     let splitted = data.toString().split("\n");
