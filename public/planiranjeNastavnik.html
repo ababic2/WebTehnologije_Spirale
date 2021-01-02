@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Planiranje</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../menu.css">
+    <link rel="stylesheet" href="planiranje.css">
+</head>
+<body>
+
+<nav class="topnav">
+    <a href="raspored.html">Raspored</a>
+    <a href="aktivnost.html">Aktivnost</a>
+    <a class="active" href="planiranjeNastavnik.html">Planiranje nastavnik</a>
+    <a href="podaciStudent.html">Podaci o studentu</a>
+</nav>
+<div class="row">
+    <div>
+        <form >
+            <label>Naziv predmeta: </label>
+            <input type="text" id = "nazivPredmeta">
+
+            <br>
+            <label>Tip: </label>
+            <select name="tip">
+                <option value="predavanje">Predavanje</option>
+                <option value="vjezbe">Vježbe</option>
+            </select>
+
+            <br>
+            <label>Vrijeme početka: </label>
+            <input type="time" name="time">
+
+            <br>
+            <label>Vrijeme kraja: </label>
+            <input type="time" name="time">
+
+            <br>
+            <label>Dan u sedmici: </label>
+            <select name="dan">
+                <option>Ponedjeljak</option>
+                <option>Utorak</option>
+                <option>Srijeda</option>
+                <option>Četvrtak</option>
+                <option>Petak</option>
+                <option>Subota</option>
+                <option>Nedjelja</option>
+            </select>
+        </form>
+    </div>
+</div>
+</body>
+</html>
