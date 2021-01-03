@@ -1,17 +1,26 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const router = express.Router();
-
 let activity = require('./activity');
+let subject = require('./predmet');
+const bodyParser = require("body-parser");
+
+const router = express.Router();
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
+
 let Aktivnost = activity.Aktivnost;
+let Predmet = subject.Predmet;
 
 function readSubjects() {
     let result = [];
     let data = fs.readFileSync('predmeti.txt', 'utf8');
     let splitted = data.toString().split("\n");
-    console.log(splitted);
-    return splitted;
+    for (let i = 0; i<splitted.length; i++) {
+        let predmet = new Predmet(splitted[i]);
+        result.push(predmet);
+    }
+    return result;
 }
 
 router.get('/', (req, res) => {
@@ -24,5 +33,18 @@ router.get('/:id/aktivnost', (req, res) => {
     let result = new Aktivnost().findActivities(idParameter);
     res.send(JSON.stringify(result));
 });
+
+router.post('/',function(req,res){
+    let tijelo = req.body;
+    console.log(tijelo);
+    let novaLinija = "\n" + tijelo['naziv'];
+    console.log(novaLinija);
+    fs.appendFile('predmeti.txt',novaLinija,function(err){
+        if(err) throw err;
+        res.json({message:"Uspješno dodan predmet!",data:novaLinija});
+    });
+});
+
+
 
 module.exports = router;
