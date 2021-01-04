@@ -6,6 +6,10 @@ const predmeti = require('./routes/predmeti');
 const aktivnosti = require('./routes/aktivnosti');
 const app = express();
 
+var cors = require('cors')
+app.use(cors())
+
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
