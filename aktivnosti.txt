@@ -1,3 +1,4 @@
 wt,predavanje,8,18,Ponedjeljak
 rpr,predavanje,8,18,Ponedjeljak
 rma,predavanje,8,18,Ponedjeljak
+RPR,predavanje,8,10,Ponedjeljak

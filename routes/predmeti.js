@@ -16,7 +16,7 @@ function readSubjects() {
     let result = [];
     let data = fs.readFileSync('predmeti.txt', 'utf8');
     let splitted = data.toString().split("\n");
-    for (let i = 0; i<splitted.length; i++) {
+    for (let i = 0; i < splitted.length; i++) {
         let predmet = new Predmet(splitted[i]);
         result.push(predmet);
     }
@@ -38,11 +38,16 @@ router.post('/',function(req,res){
     let tijelo = req.body;
     console.log(tijelo);
     let novaLinija = "\n" + tijelo['naziv'];
-    console.log(novaLinija);
-    fs.appendFile('predmeti.txt',novaLinija,function(err){
-        if(err) throw err;
-        res.json({message:"Uspješno dodan predmet!",data:novaLinija});
-    });
+    let subjects = readSubjects();
+    const found = subjects.find(element => element.getNaziv === tijelo['naziv']);
+    if(found != null) {
+        res.json({message:"Naziv predmeta postoji!",data:novaLinija});
+    }else{
+        fs.appendFile('predmeti.txt', novaLinija, function (err) {
+            if (err) throw err;
+            res.json({message: "Uspješno dodan predmet!", data: novaLinija});
+        });
+    }
 });
 
 

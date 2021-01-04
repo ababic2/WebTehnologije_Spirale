@@ -12,4 +12,19 @@ router.get('/', (req, res) => {
     res.send(JSON.stringify(result));
 });
 
+router.post('/',function(req,res){
+    let tijelo = req.body;
+    console.log(tijelo);
+    let novaLinija = "\n" + tijelo['naziv'] + "," + tijelo['tip'] + ","+
+                    tijelo['pocetak'] + "," + tijelo['kraj'] + "," + tijelo['dan'];
+    console.log(novaLinija);
+    // Aktivnost akt = new Aktivnost(tijelo[]dfsdfsd)
+    // if(!aktivnostValidna())
+    //else
+    fs.appendFile('aktivnosti.txt',novaLinija,function(err){
+        if(err) throw err;
+        res.json({message:"Uspješno dodana aktivnost!",data:novaLinija});
+    });
+});
+
 module.exports = router;
