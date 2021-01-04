@@ -17,7 +17,16 @@ function loadPage() {
         return response.json();
     }).then(data => {
         predmeti = data;
+        console.log(predmeti)
     });
 
+    fetch("/aktivnosti",{
+        method: "GET"
+    }).then(response => {
+        return response.json();
+    }).then(data => {
+        aktivnosti = data;
+        console.log(aktivnosti)
+    });
 }
 
