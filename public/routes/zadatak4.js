@@ -1,16 +1,8 @@
-let btn = document.getElementById("submit");
 let body = document.getElementsByTagName("body");
 let predmeti = undefined;
 let aktivnosti = undefined;
 
-// btn.addEventListener("click", function () {
-//    let nazivPredmeta = document.getElementById("nazivPredmeta").textContent;
-//    //da li predmet iz aktivnosti postoji
-//
-// });
-
 function loadPage() {
-
     fetch("/predmeti",{
         method: "GET"
     }).then(response => {
@@ -30,3 +22,22 @@ function loadPage() {
     });
 }
 
+document.getElementById("submit").addEventListener("click", function () {
+   let nazivPredmeta = document.getElementById("nazivPredmeta").value;
+   //da li predmet iz aktivnosti postoji??
+    let found = predmeti.find(element => element["naziv"] === nazivPredmeta.toString());
+    if(found === undefined) {
+        let obj = {naziv: nazivPredmeta};
+        fetch("/predmeti",{
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj)
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            console.log('Success:', data);
+        });
+    }
+});
