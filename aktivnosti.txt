@@ -1,3 +1,14 @@
 WT,predavanje,8,9,Utorak
 RPR,predavanje,8,9,Ponedjeljak
 LOGOG,predavanje,8,9,Ponedjeljak
+RPR,predavanje,8,10,Ponedjeljak
+RPR,predavanje,8,10,Ponedjeljak
+LOGO,predavanje,8,10,Ponedjeljak
+LOGO,predavanje,8,10,Ponedjeljak
+OOI,predavanje,8,9,Ponedjeljak
+OOI,predavanje,8,10,Ponedjeljak
+OOI,predavanje,8,10,Ponedjeljak
+OOI,predavanje,8,10,Ponedjeljak
+GUI,predavanje,8,10,Ponedjeljak
+GUI,predavanje,8,9,Ponedjeljak
+GUI,predavanje,8,9,Ponedjeljak

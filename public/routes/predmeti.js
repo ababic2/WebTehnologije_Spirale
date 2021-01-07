@@ -38,7 +38,10 @@ router.post('/',function(req,res){
 router.delete('/:id', (req, res) => {
     let idParameter = req.params.id;
     let result = predmet.readSubjects();
-
+    // let filtered = [];
+    // for(let k = 0; k < result.length - 1; k++) {
+    //     filtered.push(result[k]);
+    // }
     let filtered = result.filter(element => element["naziv"] !== idParameter.toString());
     if(filtered.length === result.length) {
         res.json({message: "Greška - predmet nije obrisana!"});

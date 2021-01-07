@@ -76,6 +76,9 @@ document.getElementById("submit").addEventListener("click", async function () {
        //ako nema predmeta vec, dodaj ga
        await sendPostRequestForSubject();
        addedSubject = true;
+       predmeti.push({naziv:nazivPredmeta.toString()});
+   }else {
+       addedSubject = false;
    }
 
    async function sendPostRequestForActivity() {
@@ -116,9 +119,10 @@ document.getElementById("submit").addEventListener("click", async function () {
             body: JSON.stringify(obj)
         });
     }
-
+    console.log("_______________________________")
+    console.log(addedSubject)
     if(findActivity === undefined && addedSubject === true) {
         console.log("HERERE");
-         sendDeleteRequest(nazivPredmeta);
+         await sendDeleteRequest(nazivPredmeta);
     }
 });
