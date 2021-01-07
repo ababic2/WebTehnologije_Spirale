@@ -10,3 +10,4 @@ DELETE,/aktivnost/RPR,null,{"message":"Greška - aktivnost nije obrisana!"}
 DELETE,/aktivnost/WT,null,{"message":"Uspješno obrisana aktivnost!"}
 DELETE,/predmet/WT,null,{"message":"Uspješno obrisan predmet!"}
 DELETE,/predmet/WT,null,{"message":"Greška - predmet nije obrisan!"}
+DELETE,/all,null,{"message":"Uspješno obrisan sadržaj datoteka!"}
