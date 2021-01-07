@@ -33,14 +33,15 @@ class FileContent {
         let act = "";
         for (let i = 0; i<splitted.length; i++) { //dodala sam ovdje -1
             let splitLine = splitted[i].split(",");
-            if(splitLine[1].toString().substring(1,10) === "aktivnost" && splitLine[2].toString() !== "null") {
+            if(splitLine[1].toString().substring(1,10) === "aktivnost" && splitLine[2].toString() !== "null" && splitLine[0].toString()!=="DELETE") {
                 join = true;
                 act += splitLine[2] + ",";
             }
-            if(join) {
+            if(join && splitLine[0].toString()!=="DELETE") {
                 act += splitLine[3] + ","+splitLine[4] + ","+splitLine[5] + ","+splitLine[6];
                 result.push({metod:splitLine[0], path:splitLine[1], in:act, out:splitLine[7]});
                 act = "";
+                join = false;
             }
             else result.push({metod:splitLine[0], path:splitLine[1], in:splitLine[2], out:splitLine[3]});
         }

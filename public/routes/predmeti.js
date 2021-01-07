@@ -44,11 +44,9 @@ router.delete('/:id', (req, res) => {
     // }
     let filtered = result.filter(element => element["naziv"] !== idParameter.toString());
     if(filtered.length === result.length) {
-        res.json({message: "Greška - predmet nije obrisana!"});
+        res.json({message: "Greška - predmet nije obrisan!"});
     } else {
-        fs.unlink('predmeti.txt', (err) => {
-            if (err) throw err;
-        });
+        fs.writeFile('predmeti.txt', '', function(){console.log('done')})
 
         function writeNewDataToFile(i) {
             let novaLinija = filtered[i]["naziv"] + "\n";

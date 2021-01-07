@@ -105,11 +105,8 @@ document.getElementById("submit").addEventListener("click", async function () {
        && element["dan"] === dan.toString()
    );
 
-   console.log("HEJ")
 
      async function sendDeleteRequest(nazivPredmeta) {
-       console.log("JOJ UBIT CU TE");
-       console.log(nazivPredmeta)
          let url = "/predmet/"+nazivPredmeta.toString();
          await fetch(url, {
             method: "DELETE",
@@ -119,10 +116,7 @@ document.getElementById("submit").addEventListener("click", async function () {
             body: JSON.stringify(obj)
         });
     }
-    console.log("_______________________________")
-    console.log(addedSubject)
     if(findActivity === undefined && addedSubject === true) {
-        console.log("HERERE");
          await sendDeleteRequest(nazivPredmeta);
     }
 });
