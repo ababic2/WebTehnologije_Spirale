@@ -34,23 +34,26 @@ router.delete('/:id', (req, res) => {
     let result = akt.readActivitiesFromFile();
 
     let filtered = result.filter(element => element["naziv"] !== idParameter.toString() && element["naziv"]!=="\n");
-
-    fs.unlink('aktivnosti.txt', (err) => {
-        if (err) throw err;
-    });
-
-    function writeNewDataToFile(i) {
-        let novaLinija = filtered[i]["naziv"] + "," + filtered[i]["tip"] + "," +
-            filtered[i]["pocetak"] + "," + filtered[i]["kraj"] + "," + filtered[i]["dan"] + "\n";
-        fs.appendFile('aktivnosti.txt', novaLinija, function (err) {
+    if(filtered.length === result.length) {
+        res.json({message: "Greška - aktivnost nije obrisana!"});
+    } else {
+        fs.unlink('aktivnosti.txt', (err) => {
             if (err) throw err;
         });
-    }
 
-    for(let i = 0; i < filtered.length; i++) {
-        writeNewDataToFile(i);
+        function writeNewDataToFile(i) {
+            let novaLinija = filtered[i]["naziv"] + "," + filtered[i]["tip"] + "," +
+                filtered[i]["pocetak"] + "," + filtered[i]["kraj"] + "," + filtered[i]["dan"] + "\n";
+            fs.appendFile('aktivnosti.txt', novaLinija, function (err) {
+                if (err) throw err;
+            });
+        }
+
+        for (let i = 0; i < filtered.length; i++) {
+            writeNewDataToFile(i);
+        }
+        res.json({message:"Uspješno obrisana aktivnost!"});
     }
-    res.send(JSON.stringify(filtered));
 });
 
 module.exports = router;
