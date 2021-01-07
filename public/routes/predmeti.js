@@ -16,7 +16,9 @@ let predmet = new Predmet();
 router.get('/:id/aktivnost', (req, res) => {
     let idParameter = req.params.id;
     let result = new Aktivnost().findActivities(idParameter);
-    res.json(result);
+    if(result!==null)
+        res.json(result);
+    else res.json([]);
 });
 
 router.post('/',function(req,res){
