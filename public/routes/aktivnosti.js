@@ -14,14 +14,11 @@ router.get('/', (req, res) => {
 
 router.post('/',function(req,res){
     let tijelo = req.body;
-    console.log(tijelo);
     let novaLinija = "\n" + tijelo['naziv'] + "," + tijelo['tip'] + ","+
                     tijelo['pocetak'] + "," + tijelo['kraj'] + "," + tijelo['dan'];
-    console.log(novaLinija);
 
     let akt = new Aktivnost(tijelo['naziv'], tijelo['tip'], tijelo['pocetak'], tijelo['kraj'], tijelo['dan']);
-    if(akt.isValid()) {
-
+    if(akt.timeValidation()) {
         fs.appendFile('aktivnosti.txt', novaLinija, function (err) {
             if (err) throw err;
             res.json({message: "Uspješno dodana aktivnost!", data: novaLinija});

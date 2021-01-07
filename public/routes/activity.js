@@ -40,7 +40,7 @@ class Aktivnost {
         return null;
     }
 
-    isValid(){
+    timeValidation(){
         if ((this.pocetak > 0 && this.pocetak < 24) &&
             (this.kraj > 0 && this.kraj < 24) &&
             (this.kraj > this.pocetak) &&

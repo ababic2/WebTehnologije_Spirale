@@ -39,7 +39,7 @@ router.post('/',function(req,res){
     console.log(tijelo);
     let novaLinija = "\n" + tijelo['naziv'];
     let subjects = readSubjects();
-    const found = subjects.find(element => element.getNaziv === tijelo['naziv']);
+    const found = subjects.find(element => element["naziv"] === tijelo['naziv']);
     if(found != null) {
         res.json({message:"Naziv predmeta postoji!",data:novaLinija});
     }else{

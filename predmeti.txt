@@ -2,3 +2,10 @@ WT
 OOI
 RPR
 PJP
+a
+LOG
+MLTI
+DM
+OI
+EHE
+OK
