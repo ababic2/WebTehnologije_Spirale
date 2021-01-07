@@ -33,8 +33,6 @@ describe('Tasks', ()=> {
                         chai.request(server)
                             .get(tests[i]["path"])
                             .end((err, response)=>{
-                                console.log("HEJ")
-                                console.log(response.body)
                                 response.should.have.status(200);
                                 response.body.should.be.a('array');
                                 response.body.length.should.be.equal(akt.readSubjectsFromFile().length);
@@ -42,17 +40,12 @@ describe('Tasks', ()=> {
                             })
                     });
         }else if(tests[i]["metod"] === "POST") {
-            console.log("OVDE")
-            console.log(tests[i]["in"])
             it("It should add some subjects or acitivities", (done )=> {
                 chai.request(server)
                     .post(tests[i]["path"])
                     .send(JSON.parse(tests[i]["in"]))
                     .end((err, response)=>{
-
                         response.should.have.status(200);
-                        console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-                        console.log(tests[i]["out"])
                         assert.equal(response.text, tests[i]["out"]);
                         done();
                     })
