@@ -24,7 +24,7 @@ function loadPage() {
 
 document.getElementById("submit").addEventListener("click", function () {
    let nazivPredmeta = document.getElementById("nazivPredmeta").value;
-   //da li predmet iz aktivnosti postoji??
+   let success = false;
     let found = predmeti.find(element => element["naziv"] === nazivPredmeta.toString());
     if(found === undefined) {
         let obj = {naziv: nazivPredmeta};
@@ -38,6 +38,8 @@ document.getElementById("submit").addEventListener("click", function () {
             return response.json();
         }).then(data => {
             console.log('Success:', data);
+        }).catch((error) => {
+            console.error('Error:', error);
         });
     }
 });

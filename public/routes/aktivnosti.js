@@ -18,13 +18,17 @@ router.post('/',function(req,res){
     let novaLinija = "\n" + tijelo['naziv'] + "," + tijelo['tip'] + ","+
                     tijelo['pocetak'] + "," + tijelo['kraj'] + "," + tijelo['dan'];
     console.log(novaLinija);
-    // Aktivnost akt = new Aktivnost(tijelo[]dfsdfsd)
-    // if(!aktivnostValidna())
-    //else
-    fs.appendFile('aktivnosti.txt',novaLinija,function(err){
-        if(err) throw err;
-        res.json({message:"Uspješno dodana aktivnost!",data:novaLinija});
-    });
+
+    let akt = new Aktivnost(tijelo['naziv'], tijelo['tip'], tijelo['pocetak'], tijelo['kraj'], tijelo['dan']);
+    if(akt.isValid()) {
+
+        fs.appendFile('aktivnosti.txt', novaLinija, function (err) {
+            if (err) throw err;
+            res.json({message: "Uspješno dodana aktivnost!", data: novaLinija});
+        });
+    } else {
+        res.json({message: "Aktivnost nije validna!", data: novaLinija});
+    }
 });
 
 module.exports = router;

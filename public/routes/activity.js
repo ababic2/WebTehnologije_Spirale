@@ -39,6 +39,17 @@ class Aktivnost {
         }
         return null;
     }
+
+    isValid(){
+        if ((this.pocetak > 0 && this.pocetak < 24) &&
+            (this.kraj > 0 && this.kraj < 24) &&
+            (this.kraj > this.pocetak) &&
+            (Number.isInteger(this.pocetak) || ((this.pocetak * 10) % 10 === 5)) &&
+            (Number.isInteger(this.kraj) || ((this.kraj * 10) % 10 === 5)))
+            return true;
+        else
+            return false;
+    }
 }
 module.exports = {
     Aktivnost: Aktivnost
