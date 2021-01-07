@@ -1,9 +1,2 @@
 WT
-OOI
-RPR
-PJP
-a
-LOG
-DM
-OI
-EHE
+LOGOG

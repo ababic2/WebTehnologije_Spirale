@@ -6,11 +6,7 @@ const router = express.Router();
 let activity = require('./activity');
 let Aktivnost = activity.Aktivnost;
 
-router.get('/', (req, res) => {
-    let akt = new Aktivnost();
-    let result = akt.readActivitiesFromFile();
-    res.send(JSON.stringify(result));
-});
+
 
 router.post('/',function(req,res){
     let tijelo = req.body;
@@ -21,10 +17,10 @@ router.post('/',function(req,res){
     if(akt.timeValidation()) {
         fs.appendFile('aktivnosti.txt', novaLinija, function (err) {
             if (err) throw err;
-            res.json({message: "Uspješno dodana aktivnost!", data: novaLinija});
+            res.set('application/json').json({message:"Uspješno dodana aktivnost!"});
         });
     } else {
-        res.json({message: "Aktivnost nije validna!", data: novaLinija});
+        res.set('application/json').json({message:"Aktivnost nije validna!"});
     }
 });
 

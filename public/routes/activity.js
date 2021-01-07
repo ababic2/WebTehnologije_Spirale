@@ -17,11 +17,12 @@ class Aktivnost {
         let data = fs.readFileSync('aktivnosti.txt', 'utf8');
 
         let splitted = data.toString().split("\n");
-        for (let i = 0; i<splitted.length -1; i++) { //dodala sam ovdje -1
+        for (let i = 0; i<splitted.length; i++) { //dodala sam ovdje -1
             let splitLine = splitted[i].split(",");
-
-            let aktivnost = new Aktivnost(splitLine[0], splitLine[1],splitLine[2], splitLine[3], splitLine[4]);
-            result.push(aktivnost);
+            if(splitLine[0] !== "") {
+                let aktivnost = new Aktivnost(splitLine[0], splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
+                result.push(aktivnost);
+            }
         }
         return result;
     }

@@ -27,7 +27,6 @@ function loadPage() {
         return response.json();
     }).then(data => {
         predmeti = data;
-        console.log(predmeti)
     });
 
     fetch("/aktivnosti",{
@@ -36,39 +35,18 @@ function loadPage() {
         return response.json();
     }).then(data => {
         aktivnosti = data;
-        console.log(aktivnosti)
     });
 }
 
-document.getElementById("submit").addEventListener("click", function () {
+document.getElementById("submit").addEventListener("click", async function () {
    let nazivPredmeta = document.getElementById("nazivPredmeta").value;
-   let success = false;
-    let findSubject = predmeti.find(element => element["naziv"] === nazivPredmeta.toString());
+   let tip = document.getElementById("tip").value;
+   let dan = document.getElementById("dan").value;
+   let addedSubject = false;
+   let findSubject = predmeti.find(element => element["naziv"] === nazivPredmeta.toString());
+   let obj = {naziv: nazivPredmeta};
 
-    function sendPostRequestForSubject() {
-        let obj = {naziv: nazivPredmeta};
-        fetch("/predmeti", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(obj)
-        }).then(response => {
-            return response.json();
-        }).then(data => {
-            console.log('Success:', data);
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-    }
-
-    if(findSubject === undefined) {
-        sendPostRequestForSubject();
-    }
-    let tip = document.getElementById("tip").value;
-    let dan = document.getElementById("dan").value;
-
-    function setTime() {
+   function setTime() {
         let splittedStart = document.getElementById("pocetak").value.toString().split(":");
         let pocetak = Number(splittedStart[0]);
 
@@ -80,43 +58,67 @@ document.getElementById("submit").addEventListener("click", function () {
         if (Number(splittedEnd[1]) !== 0)
             kraj += 0.5;
         return {pocetak, kraj};
+   }
+   let {pocetak, kraj} = setTime();
+
+   let akt = {naziv: nazivPredmeta, tip: tip, pocetak: pocetak, kraj: kraj, dan: dan};
+   async function sendPostRequestForSubject() {
+        await fetch("/predmet", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj)
+        });
     }
 
-    let {pocetak, kraj} = setTime();
+   if(findSubject === undefined) {
+       //ako nema predmeta vec, dodaj ga
+       await sendPostRequestForSubject();
+       addedSubject = true;
+   }
 
-    function sendPostRequestForActivity() {
-        let akt = {naziv: nazivPredmeta, tip: tip, pocetak: pocetak, kraj: kraj, dan: dan};
-        fetch("/aktivnosti", {
+   async function sendPostRequestForActivity() {
+       await fetch("/aktivnost", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(akt)
-        }).then(response => {
-            return response.json();
-        }).then(data => {
-            console.log('Success:', data);
-            if(data.message !== "Aktivnost nije validna!") {
-                aktivnosti.push(akt);
-            }
-        }).catch((error) => {
-            console.error('Error:', error);
         });
     }
 
-    sendPostRequestForActivity();
+   await sendPostRequestForActivity();
 
-    let findActivity = aktivnosti.find(element =>
-        element["naziv"] === nazivPredmeta.toString() && element["tip"] === tip.toString()
-        && element["pocetak"] === pocetak.toString() && element["kraj"] === kraj.toString()
-        && element["dan"] === dan.toString()
-    );
+   if ((pocetak > 0 && pocetak < 24) &&
+       (kraj > 0 && kraj < 24) &&
+       (kraj > pocetak)) {
+       aktivnosti.push(akt);
+   }
 
-    if(findActivity === undefined) {
-        console.log("MRS")
-        //obrisi predmet
-    }else {
-        console.log("YEY")
+   let findActivity = aktivnosti.find(element =>
+       element["naziv"] === nazivPredmeta.toString() && element["tip"] === tip.toString()
+       && element["pocetak"].toString() === pocetak.toString() && element["kraj"].toString() === kraj.toString()
+       && element["dan"] === dan.toString()
+   );
+
+   console.log("HEJ")
+
+     async function sendDeleteRequest(nazivPredmeta) {
+       console.log("JOJ UBIT CU TE");
+       console.log(nazivPredmeta)
+         let url = "/predmet/"+nazivPredmeta.toString();
+         await fetch(url, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj)
+        });
     }
 
+    if(findActivity === undefined && addedSubject === true) {
+        console.log("HERERE");
+         sendDeleteRequest(nazivPredmeta);
+    }
 });

@@ -10,6 +10,18 @@ class Predmet {
     get getNaziv() {
         return this.naziv;
     }
+    readSubjects() {
+        let result = [];
+        let data = fs.readFileSync('predmeti.txt', 'utf8');
+        let splitted = data.toString().split("\n");
+        for (let i = 0; i < splitted.length; i++) {
+            if(splitted[i] !== "") {
+                let predmet = new Predmet(splitted[i]);
+                result.push(predmet);
+            }
+        }
+        return result;
+    }
 
 }
 module.exports = {

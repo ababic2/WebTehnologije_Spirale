@@ -11,48 +11,33 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 let Aktivnost = activity.Aktivnost;
 let Predmet = subject.Predmet;
-
-function readSubjects() {
-    let result = [];
-    let data = fs.readFileSync('predmeti.txt', 'utf8');
-    let splitted = data.toString().split("\n");
-    for (let i = 0; i < splitted.length - 1; i++) {
-        let predmet = new Predmet(splitted[i]);
-        result.push(predmet);
-    }
-    return result;
-}
-
-router.get('/', (req, res) => {
-    let splitted = readSubjects();
-    res.send(JSON.stringify(splitted));
-});
+let predmet = new Predmet();
 
 router.get('/:id/aktivnost', (req, res) => {
     let idParameter = req.params.id;
     let result = new Aktivnost().findActivities(idParameter);
-    res.send(JSON.stringify(result));
+    res.json(result);
 });
 
 router.post('/',function(req,res){
     let tijelo = req.body;
     console.log(tijelo);
-    let novaLinija = "\n" + tijelo['naziv'];
-    let subjects = readSubjects();
+    let novaLinija = tijelo['naziv'] + "\n";
+    let subjects = predmet.readSubjects();
     const found = subjects.find(element => element["naziv"] === tijelo['naziv']);
     if(found != null) {
-        res.json({message:"Naziv predmeta postoji!",data:novaLinija});
+        res.set('application/json').json({message:"Naziv predmeta postoji!"});
     }else{
         fs.appendFile('predmeti.txt', novaLinija, function (err) {
             if (err) throw err;
-            res.json({message: "Uspješno dodan predmet!", data: novaLinija});
+            res.set('application/json').json({message: "Uspješno dodan predmet!"});
         });
     }
 });
 
 router.delete('/:id', (req, res) => {
     let idParameter = req.params.id;
-    let result = readSubjects();
+    let result = predmet.readSubjects();
 
     let filtered = result.filter(element => element["naziv"] !== idParameter.toString());
     if(filtered.length === result.length) {
