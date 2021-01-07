@@ -16,7 +16,7 @@ function readSubjects() {
     let result = [];
     let data = fs.readFileSync('predmeti.txt', 'utf8');
     let splitted = data.toString().split("\n");
-    for (let i = 0; i < splitted.length; i++) {
+    for (let i = 0; i < splitted.length - 1; i++) {
         let predmet = new Predmet(splitted[i]);
         result.push(predmet);
     }
@@ -50,6 +50,30 @@ router.post('/',function(req,res){
     }
 });
 
+router.delete('/:id', (req, res) => {
+    let idParameter = req.params.id;
+    let result = readSubjects();
 
+    let filtered = result.filter(element => element["naziv"] !== idParameter.toString());
+    if(filtered.length === result.length) {
+        res.json({message: "Greška - predmet nije obrisana!"});
+    } else {
+        fs.unlink('predmeti.txt', (err) => {
+            if (err) throw err;
+        });
+
+        function writeNewDataToFile(i) {
+            let novaLinija = filtered[i]["naziv"] + "\n";
+            fs.appendFile('predmeti.txt', novaLinija, function (err) {
+                if (err) throw err;
+            });
+        }
+
+        for (let i = 0; i < filtered.length; i++) {
+            writeNewDataToFile(i);
+        }
+        res.json({message:"Uspješno obrisan predmet!"});
+    }
+});
 
 module.exports = router;
