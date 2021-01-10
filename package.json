@@ -1,0 +1,8 @@
+{
+  "name": "wt20p18492",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "sequelize": "^6.3.5"
+  }
+}
