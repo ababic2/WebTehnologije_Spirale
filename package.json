@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {},
   "devDependencies": {
+    "mysql2": "^2.1.0",
     "sequelize": "^6.3.5"
   }
 }
