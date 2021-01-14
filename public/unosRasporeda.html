@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Planiranje</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <link rel="stylesheet" href="./css/menu.css">-->
+    <link rel="stylesheet" href="./css/planiranje.css">
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+    <script src="dist/wickedpicker.min.js"></script>
+    <link rel="stylesheet" href="dist/wickedpicker.min.css">
+</head>
+<body onload="loadPage()">
+
+<!--<nav class="topnav">-->
+<!--    <a href="raspored.html">Raspored</a>-->
+<!--    <a href="aktivnost.html">Aktivnost</a>-->
+<!--    <a class="active" href="planiranjeNastavnik.html">Planiranje nastavnik</a>-->
+<!--    <a href="podaciStudent.html">Podaci o studentu</a>-->
+<!--</nav>-->
+<div class="row">
+    <div>
+        <form >
+            <label>Naziv predmeta: </label>
+            <input type="text" id="nazivPredmeta">
+
+            <br>
+            <label>Tip: </label>
+            <select name="tip" id="tip">
+                <option value="predavanje">Predavanje</option>
+                <option value="vjezbe">Vježbe</option>
+            </select>
+
+            <br>
+            <label>Vrijeme početka: </label>
+            <input type="text" id="pocetak" name="timepicker-24-hr" class="timepicker-24-hr">
+
+            <br>
+            <label>Vrijeme kraja: </label>
+            <input type="text" id="kraj" name="timepicker-24-hr" class="timepicker-24-hr">
+
+            <br>
+            <label>Dan u sedmici: </label>
+            <select name="dan" id="dan">
+                <option>Ponedjeljak</option>
+                <option>Utorak</option>
+                <option>Srijeda</option>
+                <option>Četvrtak</option>
+                <option>Petak</option>
+                <option>Subota</option>
+                <option>Nedjelja</option>
+            </select>
+        </form>
+        <button id="submit">Submit</button>
+    </div>
+</div>
+</body>
+<script src= "/routes/zadatak4.js"></script>
+</html>

@@ -5,6 +5,13 @@ module.exports = function(sequelize,DataTypes){
         naziv:Sequelize.STRING,
         pocetak:Sequelize.FLOAT,
         kraj:Sequelize.FLOAT
+    },
+        {
+            schema: "wt2018492",
+            tableName: "aktivnost"
+        },
+        {
+        freezeTableName:true
     })
     return Aktivnost;
 };
