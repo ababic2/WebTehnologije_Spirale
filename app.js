@@ -7,7 +7,6 @@ const aktivnosti = require('./public/routes/aktivnosti');
 const app = express();
 let activity = require('./public/routes/activity');
 let Aktivnost = activity.Aktivnost;
-
 var cors = require('cors')
 app.use(cors())
 
