@@ -355,20 +355,101 @@ app.delete('/v2/aktivnost',async(req,res)=> {
 });
 
 //                                        PUT
-// Book.update(
-//     {title: req.body.title},
-//     {where: req.params.bookId}
-// )
-app.put('/v2/dan',async(req,res)=> {
-    req.params.id;
-    let deleted = await db.Dan.update({
-        where:{             naziv: req.body['naziv']
+app.put('/v2/dan/:id',async(req,res)=> {
+    let naziv = await db.Dan.findOne({
+        where:{
+            id: req.params.id
         }
     });
-    if(deleted === 1)
-        res.json({message:"Dan uspješno obrisan!"})
-    else
-        res.json({message:"Dan nije ni bio upisan!"})
+    if(naziv !== null && naziv !== undefined) {
+        await db.Dan.update(
+            {naziv: req.body['naziv']},
+            {where: {id: req.params.id}}
+        )
+        res.json({message: "Successful update!"})
+    } else {
+        res.json({message: "Update failed!"})
+    }
+});
+app.put('/v2/grupa/:id',async(req,res)=> {
+    let naziv = await db.Grupa.findOne({
+        where:{
+            id: req.params.id
+        }
+    });
+    if(naziv !== null && naziv !== undefined) {
+        await db.Grupa.update(
+            {naziv: req.body['naziv']},
+            {where: {id: req.params.id}}
+        )
+        res.json({message: "Successful update!"})
+    } else {
+        res.json({message: "Update failed!"})
+    }
+});
+app.put('/v2/predmet/:id',async(req,res)=> {
+    let naziv = await db.Predmet.findOne({
+        where:{
+            id: req.params.id
+        }
+    });
+    if(naziv !== null && naziv !== undefined) {
+        await db.Predmet.update(
+            {naziv: req.body['naziv']},
+            {where: {id: req.params.id}}
+        )
+        res.json({message: "Successful update!"})
+    } else {
+        res.json({message: "Update failed!"})
+    }
+});
+app.put('/v2/tip/:id',async(req,res)=> {
+    let naziv = await db.Tip.findOne({
+        where:{
+            id: req.params.id
+        }
+    });
+    if(naziv !== null && naziv !== undefined) {
+        await db.Tip.update(
+            {naziv: req.body['naziv']},
+            {where: {id: req.params.id}}
+        )
+        res.json({message: "Successful update!"})
+    } else {
+        res.json({message: "Update failed!"})
+    }
+});
+app.put('/v2/student/:id',async(req,res)=> {
+    let naziv = await db.Student.findOne({
+        where:{
+            id: req.params.id
+        }
+    });
+    if(naziv !== null && naziv !== undefined) {
+        await db.Student.update(
+            {ime: req.body['ime'], indeks: req.body['indeks']},
+            {where: {id: req.params.id}}
+        )
+        res.json({message: "Successful update!"})
+    } else {
+        res.json({message: "Update failed!"})
+    }
+});
+app.put('/v2/aktivnost/:id',async(req,res)=> {
+    let naziv = await db.Aktivnost.findOne({
+        where:{
+            id: req.params.id
+        }
+    });
+    if(naziv !== null && naziv !== undefined) {
+        await db.Aktivnost.update(
+            {naziv: req.body['naziv'], pocetak:req.body['pocetak'], kraj:req.body['kraj']},
+            {where: {id: req.params.id}}
+        )
+        res.json({message: "Successful update!"})
+    } else {
+        res.json({message: "Update failed!"})
+    }
 });
 
 db.init().then(
