@@ -1,29 +1,26 @@
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const predmeti = require('./public/routes/predmeti');
-const aktivnosti = require('./public/routes/aktivnosti');
+const express     = require('express');
+const path        = require('path');
+const bodyParser  = require('body-parser');
+const fs          = require('fs');
+const predmeti    = require('./public/routes/predmeti');
+const aktivnosti  = require('./public/routes/aktivnosti');
+let activity      = require('./public/routes/aktivnostClass');
+const db          = require(__dirname+'/db/init.js');
+var cors          =  require('cors')
+
 const app = express();
-let activity = require('./public/routes/aktivnostClass');
-
-const db = require(__dirname+'/db/init.js');
-
 let Aktivnost = activity.Aktivnost;
+let subject = require('./public/routes/predmet');
+let Predmet = subject.Predmet;
+let predmet = new Predmet();
 
-var cors = require('cors')
 app.use(cors())
-
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname,'public')));
 app.use('/v1/predmet', predmeti);
 app.use('/v1/aktivnost', aktivnosti);
-let subject = require('./public/routes/predmet');
-
-let Predmet = subject.Predmet;
-let predmet = new Predmet();
 
 app.delete('/all', (req, res) => {
     fs.writeFile('predmeti.txt', '', function(){console.log('done')})
@@ -36,7 +33,6 @@ app.get('/v1/predmeti', (req, res) => {
     let splitted = predmet.readSubjects();
     res.json(splitted);
 });
-
 app.get('/v1/aktivnosti', (req, res) => {
     let akt = new Aktivnost();
     let result = akt.readActivitiesFromFile();
@@ -138,6 +134,149 @@ app.get('/v2/tip',(req,res) => {
         }
     )
 });
+
+app.post('/v2/grupa',async (req,res)=> {
+    let tijelo = req.body;
+    if(await checkIfGroupAlreadyExist(tijelo['naziv'])) {
+        res.json({message:"Grupa s datim nazivom već postoji!"})
+    } else {
+        let grupa = await db.Grupa.create(
+            {
+                naziv:tijelo['naziv']
+            });
+        res.json({message:"Grupa uspješno kreirana!"})
+    }
+});
+async function checkIfGroupAlreadyExist(grupa) {
+    let naziv = await db.Grupa.findOne({
+        where:{
+            naziv: grupa
+        }
+    });
+    if(naziv !== null && naziv !== undefined)
+        return true;
+    return false;
+}
+
+app.post('/v2/dan',async (req,res)=> {
+    let tijelo = req.body;
+    if(await checkIfDayAlreadyExist(tijelo['naziv'])) {
+        res.json({message:"Dan s datim nazivom već postoji!"})
+    } else {
+        let dan = await db.Dan.create(
+            {
+                naziv:tijelo['naziv']
+            });
+        res.json({message:"Dan uspješno kreiran!"})
+    }
+});
+async function checkIfDayAlreadyExist(dan) {
+    let naziv = await db.Dan.findOne({
+        where:{
+            naziv: dan
+        }
+    });
+    if(naziv !== null && naziv !== undefined)
+        return true;
+    return false;
+}
+
+app.post('/v2/tip',async (req,res)=> {
+    let tijelo = req.body;
+    if(await checkIfTypeAlreadyExist(tijelo['naziv'])) {
+        res.json({message:"Tip s datim nazivom već postoji!"})
+    } else {
+        let dan = await db.Tip.create(
+            {
+                naziv:tijelo['naziv']
+            });
+        res.json({message:"Tip uspješno kreiran!"})
+    }
+});
+async function checkIfTypeAlreadyExist(tip) {
+    let naziv = await db.Tip.findOne({
+        where:{
+            naziv: tip
+        }
+    });
+    if(naziv !== null && naziv !== undefined)
+        return true;
+    return false;
+}
+
+app.post('/v2/predmet',async (req,res)=> {
+    let tijelo = req.body;
+    if(await checkIfSubjectAlreadyExist(tijelo['naziv'])) {
+        res.json({message:"Predmet s datim nazivom već postoji!"})
+    } else {
+        let predmet = await db.Predmet.create(
+            {
+                naziv:tijelo['naziv']
+            });
+        res.json({message:"Predmet uspješno kreiran!"})
+    }
+});
+async function checkIfSubjectAlreadyExist(subject) {
+    let naziv = await db.Predmet.findOne({
+        where:{
+            naziv: subject
+        }
+    });
+    if(naziv !== null && naziv !== undefined)
+        return true;
+    return false;
+}
+
+app.post('/v2/student',async (req,res)=> {
+    let tijelo = req.body;
+    if(await checkIfStudentAlreadyExist(tijelo['indeks'])){
+        res.json({message:"Student već postoji!"})
+    } else {
+        let student = await db.Student.create(
+            {
+                ime:tijelo['ime'],
+                indeks: tijelo['indeks']
+            });
+        res.json({message:"Student uspješno dodan!"})
+    }
+});
+async function checkIfStudentAlreadyExist(indeks) {
+    let index = await db.Student.findOne({
+        where:{
+            indeks: indeks
+        }
+    });
+    if(index !== null && index !== undefined)
+        return true;
+    return false;
+}
+
+app.post('/v2/aktivnost',async (req,res)=> {
+    let tijelo = req.body;
+    if(await checkIfActivityAlreadyExist(tijelo)){
+        res.json({message:"Aktivnost već postoji!"})
+    } else {
+        let aktivnost = await db.Aktivnost.create(
+            {
+                naziv: tijelo['naziv'],
+                pocetak: tijelo['pocetak'],
+                kraj: tijelo['kraj']
+            });
+        res.json({message:"Aktivnost uspješno dodana!"})
+    }
+});
+async function checkIfActivityAlreadyExist(tijelo){
+    let akt = await db.Aktivnost.findOne({
+        where:{
+            naziv: tijelo['naziv'],
+            pocetak: tijelo['pocetak'],
+            kraj: tijelo['kraj']
+        }
+    });
+    if(akt !== null && akt !== undefined)
+        return true;
+    return false;
+}
 
 db.init().then(
     () => {
