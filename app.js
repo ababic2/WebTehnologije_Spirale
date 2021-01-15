@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const predmeti = require('./public/routes/predmeti');
 const aktivnosti = require('./public/routes/aktivnosti');
-const crud = require('./public/routes/crud');
 const app = express();
 let activity = require('./public/routes/aktivnostClass');
 let Aktivnost = activity.Aktivnost;
@@ -18,7 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname,'public')));
 app.use('/v1/predmet', predmeti);
 app.use('/v1/aktivnost', aktivnosti);
-app.use('/v2', crud);
 let subject = require('./public/routes/predmet');
 
 let Predmet = subject.Predmet;

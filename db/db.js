@@ -1,48 +1,33 @@
-const Sequelize = require("sequelize");
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize("wt2018492","root","root",
+    {host:'127.0.0.1',dialect:'mysql',logging:false});
 
-const sequelize = new Sequelize("wt2018492","root","root",{host:"127.0.0.1",dialect:"mysql",logging:false});
-sequelize.authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch(err => {
-        console.error('Unable to connect to the database:', err);
-    });
-const db={};
+const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-//import modela
-db.aktivnost = sequelize.import(__dirname+'/model/aktivnost.js');
-db.dan = sequelize.import(__dirname+'/model/dan.js');
-db.grupa = sequelize.import(__dirname+'/model/grupa.js');
-db.predmet = sequelize.import(__dirname+'/model/predmet.js');
-db.student = sequelize.import(__dirname+'/model/student.js');
-db.tip = sequelize.import(__dirname+'/model/tip.js');
+db.Aktivnost = sequelize.import(__dirname+'/../models/Aktivnost.js');
+db.Dan = sequelize.import(__dirname+'/../models/Dan.js');
+db.Grupa = sequelize.import(__dirname+'/../models/Grupa.js');
+db.Predmet = sequelize.import(__dirname+'/../models/Predmet.js');
+db.Student = sequelize.import(__dirname+'/../models/Student.js');
+db.Tip = sequelize.import(__dirname+'/../models/Tip.js');
 
-//relacije
-//Predmet 1-N Grupa && belongsTo
-db.predmet.hasMany(db.grupa,{as:'grupe'});
-db.grupa.belongsTo(db.predmet)
+// Predmet 1-N Grupa
+db.Predmet.hasMany(db.Grupa, {foreignKey:'predmet'})
+db.Grupa.belongsTo(db.Predmet, {foreignKey:'predmet'})
 
-//Aktivnost N-1 Predmet
-db.predmet.hasMany(db.aktivnost, {foreignKey:'predmetId'});
-db.aktivnost.belongsTo(db.predmet,{foreignKey:'predmetId'});
+//Aktivnost N-1 Predmet or Predmet 1-N Aktivnost
+db.Predmet.hasMany(db.Aktivnost, {foreignKey:'predmet'})
+db.Aktivnost.belongsTo(db.Predmet, {foreignKey:'predmet'})
 
-//Aktivnost N-0 Grupa
+//Aktivnost N-1 Tip   or Tip 1-N Aktivnost
+db.Tip.hasMany(db.Aktivnost, {foreignKey:'tip'})
+db.Aktivnost.belongsTo(db.Tip, {foreignKey:'tip'})
 
-//Aktivnost N-1 Dan
-db.dan.hasMany(db.aktivnost, {foreignKey:'danId'});
-db.aktivnost.belongsTo(db.dan,{foreignKey:'danId'});
+//Student N-M Grupa
+db.Student.belongsToMany(db.Grupa, { through: 'StudentGrupa' });
+db.Grupa.belongsToMany(db.Student, { through: 'StudentGrupa' });
 
-//Aktivnost N-1 Tip
-db.tip.hasMany(db.aktivnost, {foreignKey:'tipId'});
-db.aktivnost.belongsTo(db.tip,{foreignKey:'tipId'});
-
-//Student N-M Grupa student vise gruoa i grupa vise studenata
-db.junction = db.student.belongsToMany(db.grupa,{as:'grupe', through:'junction', foreignKey:'studentId'});
-db.grupa.belongsToMany(db.student,{as:'studenti', through:'junction', foreignKey:'grupaId'});
-
-db.sequelize.sync({force:true});
 module.exports = db;
