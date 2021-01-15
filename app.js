@@ -39,6 +39,7 @@ app.get('/v1/aktivnosti', (req, res) => {
     res.json(result);
 });
 
+//                                      GET
 app.get('/v2/aktivnost',(req,res) => {
     db.Aktivnost.findAll().then(
         (aktivnosti) => {
@@ -135,6 +136,7 @@ app.get('/v2/tip',(req,res) => {
     )
 });
 
+//                                      POST
 app.post('/v2/grupa',async (req,res)=> {
     let tijelo = req.body;
     if(await checkIfGroupAlreadyExist(tijelo['naziv'])) {
@@ -277,6 +279,97 @@ async function checkIfActivityAlreadyExist(tijelo){
         return true;
     return false;
 }
+
+//                                       DELETE
+app.delete('/v2/dan',async(req,res)=> {
+    let deleted = await db.Dan.destroy({
+        where:{
+            naziv: req.body['naziv']
+        }
+    });
+    if(deleted === 1)
+        res.json({message:"Dan uspješno obrisan!"})
+    else
+        res.json({message:"Dan nije ni bio upisan!"})
+});
+app.delete('/v2/grupa',async(req,res)=> {
+    let deleted = await db.Grupa.destroy({
+        where:{
+            naziv: req.body['naziv']
+        }
+    });
+    if(deleted === 1)
+        res.json({message:"Grupa uspješno obrisana!"})
+    else
+        res.json({message:"Grupa nije ni bila upisana!"})
+});
+app.delete('/v2/predmet',async(req,res)=> {
+    let deleted = await db.Predmet.destroy({
+        where:{
+            naziv: req.body['naziv']
+        }
+    });
+    if(deleted === 1)
+        res.json({message:"Predmet uspješno obrisan!"})
+    else
+        res.json({message:"Predmet nije ni bio upisan!"})
+});
+app.delete('/v2/tip',async(req,res)=> {
+    let deleted = await db.Tip.destroy({
+        where:{
+            naziv: req.body['naziv']
+        }
+    });
+    if(deleted === 1)
+        res.json({message:"Tip uspješno obrisan!"})
+    else
+        res.json({message:"Tip nije ni bio upisan!"})
+});
+app.delete('/v2/student',async(req,res)=> {
+    let deleted = await db.Student.destroy({
+        where:{
+            ime: req.body['ime'],
+            indeks: req.body['indeks']
+        }
+    });
+    if(deleted === 1)
+        res.json({message:"Student uspješno obrisan!"})
+    else
+        res.json({message:"Student nije ni bio upisan!"})
+});
+app.delete('/v2/aktivnost',async(req,res)=> {
+    let tijelo = req.body;
+    let deleted = await db.Aktivnost.destroy({
+        where:{
+            where:{
+                naziv: tijelo['naziv'],
+                pocetak: tijelo['pocetak'],
+                kraj: tijelo['kraj']
+            }
+        }
+    });
+    if(deleted === 1)
+        res.json({message:"Aktivnost uspješno obrisana!"})
+    else
+        res.json({message:"Aktivnost nije ni bila upisana!"})
+});
+
+//                                        PUT
+// Book.update(
+//     {title: req.body.title},
+//     {where: req.params.bookId}
+// )
+app.put('/v2/dan',async(req,res)=> {
+    req.params.id;
+    let deleted = await db.Dan.update({
+        where:{             naziv: req.body['naziv']
+        }
+    });
+    if(deleted === 1)
+        res.json({message:"Dan uspješno obrisan!"})
+    else
+        res.json({message:"Dan nije ni bio upisan!"})
+});
 
 db.init().then(
     () => {
