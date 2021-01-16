@@ -177,11 +177,29 @@ app.get('/v2/grupa/:id',async(req,res) => {
         });
     });
 });
+app.get('/v2/predmet/:id',async(req,res) => {
+    let idParameter = req.params.id;
+
+    let found = await db.Predmet.findOne({
+        where: {
+            id: idParameter
+        }
+    }).then((result) => {
+        let a = {
+            id: result.id,
+            naziv: result.naziv
+        }
+        res.json({
+            predmet: a
+        });
+    });
+});
+
 
 //                                      POST
 app.post('/v2/grupa',async (req,res)=> {
     let tijelo = req.body;
-    if(await checkIfGroupAlreadyExist(tijelo['naziv'])) {
+    if(await checkIfGroupAlreadyExist(tijelo['naziv'], tijelo['predmet'])) {
         res.json({message:"Grupa s datim nazivom već postoji!"})
     } else {
         let grupa = await db.Grupa.create(
@@ -192,10 +210,11 @@ app.post('/v2/grupa',async (req,res)=> {
         res.json({message:"Grupa uspješno kreirana!"})
     }
 });
-async function checkIfGroupAlreadyExist(grupa) {
+async function checkIfGroupAlreadyExist(grupa, predmet) {
     let naziv = await db.Grupa.findOne({
         where:{
-            naziv: grupa
+            naziv: grupa,
+            predmet: predmet
         }
     });
     if(naziv !== null && naziv !== undefined)

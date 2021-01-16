@@ -6,9 +6,15 @@ function setOptions() {
     let select = document.getElementsByTagName("select")[0];
     for (let i = 0; i < grupe.grupe.length; i++) {
         let opt = document.createElement("option");
-        opt.value = grupe.grupe[i]['naziv'];
-        opt.innerHTML = grupe.grupe[i]['naziv']; // whatever property it has
-        select.appendChild(opt);
+        fetch("/v2/predmet/"+grupe.grupe[i]['predmet'], {
+            method: "GET"
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            opt.value = data.predmet['id'] + "," + grupe.grupe[i]['naziv'];
+            opt.innerHTML = data.predmet['id'] + "," + grupe.grupe[i]['naziv']; // whatever property it has
+            select.appendChild(opt);
+        });
     }
 }
 //prilikom učitavanja stranice neka pokupi sve grupe i postavi u select tag
@@ -36,20 +42,24 @@ function createArrayOfNewStudents(textarea, grupa) {
     return result;
 }
 
-async function findGroupForJunctionTable(grupa) {
-    await fetch("/v2/grupa/"+grupa.toString(), {
-        method: "GET"
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        grupaId = data.grupa['id'];
-    });
+function findGroupForJunctionTable(grupa, predmet) {
+    for(let i = 0; i < grupe.grupe.length; i++) {
+        if(grupe.grupe[i]['naziv'] === grupa && grupe.grupe[i]['predmet'] === predmet) {
+            return grupe.grupe[i]['id'];
+        }
+    }
 }
 
 document.getElementById("send").addEventListener("click", async function () {
     let textarea = document.getElementById("textarea").value;
-    let grupa = document.getElementById("mySelect").value;
-    let newStudents = createArrayOfNewStudents(textarea, grupa);
+
+    let text = document.getElementById("mySelect").value;
+
+    let grupaName = text.toString().split(",")[1];
+    let predmetId = text.toString().split(",")[0];
+    console.log(grupaName + predmetId)
+
+    let newStudents = createArrayOfNewStudents(textarea, grupaName);
     let messages = [];
     let newText = "";
     for(let i = 0; i < newStudents.length; i++) {
@@ -66,5 +76,7 @@ document.getElementById("send").addEventListener("click", async function () {
             });
     }
     document.getElementById("textarea").value = newText;
-    await findGroupForJunctionTable(grupa);
+    let junctionGroup =  findGroupForJunctionTable(grupaName.toString(), Number(predmetId));
+    console.log("JUNNNNNN")
+    console.log(junctionGroup)
 });

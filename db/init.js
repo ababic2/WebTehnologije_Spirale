@@ -7,8 +7,8 @@ db.init = async () => {
         await db.Dan.create({naziv:"Ponedjeljak"})
         await db.Dan.create({naziv:"Utorak"})
 
-        await db.Grupa.create({naziv:"GrupaA"})
-        await db.Grupa.create({naziv:"GrupaB"})
+        await db.Grupa.create({naziv:"GrupaA", predmet:1})
+        await db.Grupa.create({naziv:"GrupaB",predmet:2})
 
         await db.Predmet.create({naziv:"RPR"})
         await db.Predmet.create({naziv:"RPR"})
