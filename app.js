@@ -146,7 +146,7 @@ app.get('/v2/student/:id',async(req,res) => {
 
     let found = await db.Student.findOne({
         where: {
-            id: idParameter
+            indeks: idParameter
         }
     }).then((result) => {
         let a = {
@@ -164,7 +164,7 @@ app.get('/v2/grupa/:id',async(req,res) => {
 
     let found = await db.Grupa.findOne({
         where: {
-            id: idParameter
+            naziv: idParameter
         }
     }).then((result) => {
         let a = {
