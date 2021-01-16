@@ -48,7 +48,11 @@ app.get('/v2/aktivnost',(req,res) => {
                     id:aktivnost.id,
                     naziv:aktivnost.naziv,
                     pocetak:aktivnost.pocetak,
-                    kraj:aktivnost.kraj
+                    kraj:aktivnost.kraj,
+                    predmet:aktivnost.predmet,
+                    dan:aktivnost.dan,
+                    grupa:aktivnost.grupa,
+                    tip:aktivnost.tip,
                 }
             })
             res.json({
@@ -78,7 +82,8 @@ app.get('/v2/grupa',(req,res) => {
             grupe.map(grupa => {
                 return {
                     id:grupa.id,
-                    naziv:grupa.naziv
+                    naziv:grupa.naziv,
+                    predmet: grupa.predmet
                 }
             })
             res.json({
@@ -136,6 +141,43 @@ app.get('/v2/tip',(req,res) => {
     )
 });
 
+app.get('/v2/student/:id',async(req,res) => {
+    let idParameter = req.params.id;
+
+    let found = await db.Student.findOne({
+        where: {
+            id: idParameter
+        }
+    }).then((result) => {
+        let a = {
+            id: result.id,
+            ime: result.ime,
+            indeks: result.indeks
+        }
+        res.json({
+            student: a
+        });
+    });
+});
+app.get('/v2/grupa/:id',async(req,res) => {
+    let idParameter = req.params.id;
+
+    let found = await db.Grupa.findOne({
+        where: {
+            id: idParameter
+        }
+    }).then((result) => {
+        let a = {
+            id: result.id,
+            naziv: result.naziv,
+            predmet: result.predmet
+        }
+        res.json({
+            grupa: a
+        });
+    });
+});
+
 //                                      POST
 app.post('/v2/grupa',async (req,res)=> {
     let tijelo = req.body;
@@ -144,7 +186,8 @@ app.post('/v2/grupa',async (req,res)=> {
     } else {
         let grupa = await db.Grupa.create(
             {
-                naziv:tijelo['naziv']
+                naziv:tijelo['naziv'],
+                predmet:tijelo['predmet']
             });
         res.json({message:"Grupa uspješno kreirana!"})
     }
@@ -231,8 +274,10 @@ async function checkIfSubjectAlreadyExist(subject) {
 
 app.post('/v2/student',async (req,res)=> {
     let tijelo = req.body;
-    if(await checkIfStudentAlreadyExist(tijelo['indeks'])){
-        res.json({message:"Student već postoji!"})
+    let mess = await checkIfStudentAlreadyExist(tijelo['ime'],tijelo['indeks']);
+
+    if(mess !== "") {
+        res.json({message:mess})
     } else {
         let student = await db.Student.create(
             {
@@ -242,15 +287,25 @@ app.post('/v2/student',async (req,res)=> {
         res.json({message:"Student uspješno dodan!"})
     }
 });
-async function checkIfStudentAlreadyExist(indeks) {
+async function checkIfStudentAlreadyExist(naziv, indeks) {
     let index = await db.Student.findOne({
         where:{
+            ime: naziv,
             indeks: indeks
         }
     });
     if(index !== null && index !== undefined)
-        return true;
-    return false;
+        return "Student već postoji!";
+    else {
+        index = await db.Student.findOne({
+            where:{
+                indeks: indeks
+            }
+        });
+        if (index !== null && index !== undefined)
+            return "Student " + naziv + " nije kreiran jer postoji student " + index.ime + " sa istim indeksom " + indeks;
+    }
+    return "";
 }
 
 app.post('/v2/aktivnost',async (req,res)=> {
@@ -262,7 +317,11 @@ app.post('/v2/aktivnost',async (req,res)=> {
             {
                 naziv: tijelo['naziv'],
                 pocetak: tijelo['pocetak'],
-                kraj: tijelo['kraj']
+                kraj: tijelo['kraj'],
+                predmet:tijelo['predmet'],
+                dan:tijelo['dan'],
+                grupa:tijelo['grupa'],
+                tip:tijelo['tip']
             });
         res.json({message:"Aktivnost uspješno dodana!"})
     }
