@@ -163,24 +163,6 @@ async function sendPostRequestForActivity(akt, nazivGrupe, nazivPredmeta, predme
         });
  }
 
-// async function sendPostRequestForActivity(akt, nazivPredmeta, addedSubject, predmetId) {
-//     await fetch("/v2/aktivnost", {
-//          method: "POST",
-//          headers: {
-//              'Content-Type': 'application/json',
-//          },
-//          body: JSON.stringify(akt)
-//      }).then(response => response.json())
-//         .then(data => {
-//             console.log(data.message)
-//             console.log(addedSubject)
-//            if(data.message === "Aktivnost nije validna!" && addedSubject === true) {
-//                sendRequestForSubjectDelete(nazivPredmeta);
-//            } else {
-//                console.log("Dodavanje aktivnosti uspješno!");
-//            }
-//         });
-//  }
 document.getElementById("submit").addEventListener("click", async function () {
    let nazivPredmeta = document.getElementById("nazivPredmeta").value;
    let nazivGrupe = document.getElementById("nazivGrupe").value;
@@ -242,31 +224,4 @@ document.getElementById("submit").addEventListener("click", async function () {
     //ukoliko je vratio poruku da nije uspjeno dodavanje, onda obrisi grupu i ocekivano kaskadno predmet
     //inace ispisi poruku da je sve oke
 
-   //
-   // if ((pocetak > 0 && pocetak < 24) &&
-   //     (kraj > 0 && kraj < 24) &&
-   //     (kraj > pocetak)) {
-   //     aktivnosti.push(akt);
-   // }
-   //
-   // let findActivity = aktivnosti.find(element =>
-   //     element["naziv"] === nazivPredmeta.toString() && element["tip"] === tip.toString()
-   //     && element["pocetak"].toString() === pocetak.toString() && element["kraj"].toString() === kraj.toString()
-   //     && element["dan"] === dan.toString()
-   // );
-   //
-   //
-   //   async function sendDeleteRequest(nazivPredmeta) {
-   //       let url = "/v1/predmet/"+nazivPredmeta.toString();
-   //       await fetch(url, {
-   //          method: "DELETE",
-   //          headers: {
-   //              'Content-Type': 'application/json',
-   //          },
-   //          body: JSON.stringify(obj)
-   //      });
-   //  }
-   //  if(findActivity === undefined && addedSubject === true) {
-   //       await sendDeleteRequest(nazivPredmeta);
-   //  }
 });
