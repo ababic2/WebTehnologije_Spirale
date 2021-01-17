@@ -1,6 +1,5 @@
 let body = document.getElementsByTagName("body");
 let grupe = undefined;
-let grupaId = undefined;
 
 function setOptions() {
     let select = document.getElementsByTagName("select")[0];
@@ -42,7 +41,7 @@ function createArrayOfNewStudents(textarea, grupa) {
     return result;
 }
 
-function findGroupForJunctionTable(grupa, predmet) {
+function findIdOfGroupForJunctionTable(grupa, predmet) {
     for(let i = 0; i < grupe.grupe.length; i++) {
         if(grupe.grupe[i]['naziv'] === grupa && grupe.grupe[i]['predmet'] === predmet) {
             return grupe.grupe[i]['id'];
@@ -50,17 +49,64 @@ function findGroupForJunctionTable(grupa, predmet) {
     }
 }
 
+async function findAddedSIdForJunctionTable(students, dodani) {
+    let indeksi = [];
+    for (let i = 0; i < dodani.length; i++) {
+        indeksi.push(students[dodani[i]]['indeks']);
+    }
+    let result = [];
+    for (let i = 0; i < indeksi.length; i++) {
+        await fetch("/v2/student/" + indeksi[i], {
+            method: "GET"
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            result.push(data.student['id']);
+        });
+    }
+    return result;
+}
+
+function createInJunctionTable(junctionGroup, addedStudents) {
+    for(let i = 0; i < addedStudents.length; i++) {
+        let obj = {StudentId: addedStudents[i], GrupaId: junctionGroup}
+        fetch("/v2/junction/" + addedStudents[i] + "/" + junctionGroup, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(obj)
+        });
+    }
+}
+
+async function findStudentsForGroupChange(students, postojeci, junctionGroup, predmetId) {
+    let groups = [];
+    let studenti = await findAddedSIdForJunctionTable(students, postojeci);
+    for (let i = 0; i < postojeci.length; i++) {
+        await fetch("/v2/junction", {
+            method: "GET"
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            groups = data.tipovi.filter(s =>
+                s['StudentId'] === studenti[i]
+            ).filter(s => (s['GrupaId'] === junctionGroup));
+            console.log("hih")
+            console.log(groups)
+        });
+    }
+    return groups;
+}
+
 document.getElementById("send").addEventListener("click", async function () {
     let textarea = document.getElementById("textarea").value;
-
     let text = document.getElementById("mySelect").value;
-
     let grupaName = text.toString().split(",")[1];
     let predmetId = text.toString().split(",")[0];
-    console.log(grupaName + predmetId)
-
     let newStudents = createArrayOfNewStudents(textarea, grupaName);
-    let messages = [];
+    let postojeci = [];
+    let dodani = [];
     let newText = "";
     for(let i = 0; i < newStudents.length; i++) {
         await fetch("/v2/student", {
@@ -71,12 +117,22 @@ document.getElementById("send").addEventListener("click", async function () {
             body: JSON.stringify(newStudents[i])
         }).then(response => response.json())
             .then(data => {
-            messages.push(data);
+                console.log(data.message)
+                if(data.message === "Student uspješno dodan!")
+                    dodani.push(i);
+                else if(data.message === "Student već postoji!")
+                    postojeci.push(i);
             newText += data.message + "\n";
             });
     }
     document.getElementById("textarea").value = newText;
-    let junctionGroup =  findGroupForJunctionTable(grupaName.toString(), Number(predmetId));
-    console.log("JUNNNNNN")
+    let junctionGroup = findIdOfGroupForJunctionTable(grupaName.toString(), Number(predmetId));
+    let addedStudents = await findAddedSIdForJunctionTable(newStudents, dodani);
+    console.log("JUNCTION GROUP")
     console.log(junctionGroup)
+    console.log(addedStudents)
+    createInJunctionTable(junctionGroup, addedStudents);
+
+    let changeStudents = await findStudentsForGroupChange(newStudents, postojeci, junctionGroup, predmetId);
+    console.log(changeStudents)
 });

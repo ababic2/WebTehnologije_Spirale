@@ -19,6 +19,9 @@ db.init = async () => {
         await db.Tip.create({naziv:"Predavanje"})
         await db.Tip.create({naziv:"Tutorijal"})
 
+        await db.StudentGrupa.create({StudentId:1, GrupaId:1})
+        await db.StudentGrupa.create({StudentId:2, GrupaId:2})
+
     };
     await db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0', { raw: true });
     await db.sequelize.sync({force:'true'})

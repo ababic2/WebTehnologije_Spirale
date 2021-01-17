@@ -194,6 +194,21 @@ app.get('/v2/predmet/:id',async(req,res) => {
         });
     });
 });
+app.get('/v2/junction', (req,res) => {
+    db.StudentGrupa.findAll().then(
+        (tipovi) => {
+            tipovi.map(tip => {
+                return {
+                    StudentId:tip.StudentId,
+                   GrupaId:tip.GrupaId
+                }
+            })
+            res.json({
+                tipovi:tipovi
+            })
+        }
+    )
+});
 
 
 //                                      POST
@@ -357,6 +372,16 @@ async function checkIfActivityAlreadyExist(tijelo){
         return true;
     return false;
 }
+
+app.post('/v2/junction/:id/:name',async (req,res)=> {
+    let aktivnost = await db.StudentGrupa.create(
+        {
+            StudentId: req.params.id,
+            GrupaId: req.params.name
+        });
+        res.json({message:"Dodano u junction"})
+});
+
 
 //                                       DELETE
 app.delete('/v2/dan',async(req,res)=> {
