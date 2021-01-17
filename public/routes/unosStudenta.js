@@ -80,23 +80,48 @@ function createInJunctionTable(junctionGroup, addedStudents) {
     }
 }
 
+function compareNewAndOldPredmetId(studentAndGroup, predmetId, junctionGroup) {
+    let result = undefined;
+    for(let i = 0; i < studentAndGroup.length; i++) {
+        result = grupe.grupe.filter(s => s['id'] === studentAndGroup[i]['GrupaId'] && s['predmet'] === Number(predmetId));
+        // result = studentAndGroup.filter(s => s['predmet'] === Number(predmetId));
+        console.log("EHEHEHEHE " )
+        if (result !== null && result !== undefined) {
+            //promijeni predmet u junction tabeli
+            let obj = {StudentId: studentAndGroup[i]['StudentId'], GrupaId: junctionGroup};
+            fetch("/v2/junction/" + studentAndGroup[i]['StudentId'] + "/" + studentAndGroup[i]['GrupaId'], {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(obj)
+            });
+            break;
+        }
+    }
+}
+
 async function findStudentsForGroupChange(students, postojeci, junctionGroup, predmetId) {
-    let groups = [];
+    let studentAndGroup = [];
     let studenti = await findAddedSIdForJunctionTable(students, postojeci);
+    console.log("EVVVVVVVVVVVVVV")
+    console.log(studenti)
     for (let i = 0; i < postojeci.length; i++) {
-        await fetch("/v2/junction", {
+         fetch("/v2/junction", {
             method: "GET"
         }).then(response => {
             return response.json();
         }).then(data => {
-            groups = data.tipovi.filter(s =>
+            studentAndGroup = data.tipovi.filter(s =>
                 s['StudentId'] === studenti[i]
-            ).filter(s => (s['GrupaId'] === junctionGroup));
+            );
+                //.filter(s => (s['GrupaId'] === junctionGroup));
             console.log("hih")
-            console.log(groups)
+            console.log(studentAndGroup)
+            compareNewAndOldPredmetId(studentAndGroup, predmetId, junctionGroup);
         });
     }
-    return groups;
+    return studentAndGroup;
 }
 
 document.getElementById("send").addEventListener("click", async function () {

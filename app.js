@@ -555,6 +555,14 @@ app.put('/v2/aktivnost/:id',async(req,res)=> {
     }
 });
 
+app.put('/v2/junction/:id/:name',async(req,res)=> {
+        await db.StudentGrupa.update(
+            {StudentId: req.body['StudentId'], GrupaId:req.body['GrupaId']},
+            {where: {StudentId: req.params.id, GrupaId: req.params.name}}
+        )
+        res.json({message: "Successful update!"})
+});
+
 db.init().then(
     () => {
         console.log('Listening on port 3000 after database initialization...')
