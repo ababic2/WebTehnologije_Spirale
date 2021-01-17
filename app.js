@@ -342,6 +342,27 @@ async function checkIfStudentAlreadyExist(naziv, indeks) {
     return "";
 }
 
+app.post('/v2/nizStudent/',async (req,res)=> {
+    let mojNiz = req.body;
+    let poruke = [];
+
+    for(let i = 0; i < mojNiz.length; i++) {
+        let mess = await checkIfStudentAlreadyExist(mojNiz[i]['ime'], mojNiz[i]['indeks']);
+        if (mess !== "") {
+            poruke.push(mess);
+        } else {
+            let student = await db.Student.create(
+                {
+                    ime: mojNiz[i]['ime'],
+                    indeks: mojNiz[i]['indeks']
+                });
+            poruke.push("Student uspješno dodan!");
+        }
+    }
+    res.json({result: poruke});
+});
+
+
 app.post('/v2/aktivnost',async (req,res)=> {
     let tijelo = req.body;
     if(await checkIfActivityAlreadyExist(tijelo)){
@@ -437,8 +458,6 @@ app.delete('/v2/student',async(req,res)=> {
     });
     if(deleted === 1)
         res.json({message:"Student uspješno obrisan!"})
-        //obrisi i u medjutabeli
-
     else
         res.json({message:"Student nije ni bio upisan!"})
 });

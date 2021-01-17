@@ -130,26 +130,44 @@ document.getElementById("send").addEventListener("click", async function () {
     let grupaName = text.toString().split(",")[1];
     let predmetId = text.toString().split(",")[0];
     let newStudents = createArrayOfNewStudents(textarea, grupaName);
+    console.log(newStudents)
     let postojeci = [];
     let dodani = [];
     let newText = "";
-    for(let i = 0; i < newStudents.length; i++) {
-        await fetch("/v2/student", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newStudents[i])
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data.message)
-                if(data.message === "Student uspješno dodan!")
-                    dodani.push(i);
-                else if(data.message === "Student već postoji!")
-                    postojeci.push(i);
-            newText += data.message + "\n";
-            });
-    }
+    // for(let i = 0; i < newStudents.length; i++) {
+        // await fetch("/v2/student", {
+        //     method: "POST",
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(newStudents[i])
+        // }).then(response => response.json())
+        //     .then(data => {
+        //         console.log(data.message)
+        //         if(data.message === "Student uspješno dodan!")
+        //             dodani.push(i);
+        //         else if(data.message === "Student već postoji!")
+        //             postojeci.push(i);
+        //     newText += data.message + "\n";
+        //     });
+    await fetch("/v2/nizStudent", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newStudents)
+    }).then(response => response.json())
+        .then(data => {
+            console.log(data.result)
+            for(let i = 0; i < data.result.length; i++) {
+                    if(data.result[i] === "Student uspješno dodan!")
+                        dodani.push(i);
+                    else if(data.result[i] === "Student već postoji!")
+                        postojeci.push(i);
+                newText += data.result[i] + "\n";
+            }
+        });
+
     document.getElementById("textarea").value = newText;
     let junctionGroup = findIdOfGroupForJunctionTable(grupaName.toString(), Number(predmetId));
     let addedStudents = await findAddedSIdForJunctionTable(newStudents, dodani);
