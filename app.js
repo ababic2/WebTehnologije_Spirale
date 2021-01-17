@@ -359,7 +359,12 @@ app.post('/v2/nizStudent/',async (req,res)=> {
             poruke.push("Student uspješno dodan!");
         }
     }
-    res.json({result: poruke});
+    let sviDodani = poruke.filter(s=> s === "Student uspješno dodan!");
+    if(sviDodani.length === poruke.length) {
+        sviDodani.splice(0, sviDodani.length);
+        res.status(200).json({message: sviDodani});
+    } else
+        res.json({result: poruke});
 });
 
 

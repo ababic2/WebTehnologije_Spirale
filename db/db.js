@@ -36,7 +36,7 @@ db.Tip.hasMany(db.Aktivnost, {foreignKey:'tip'})
 db.Aktivnost.belongsTo(db.Tip, {foreignKey:'tip', onDelete:'cascade'})
 
 //Student N-M Grupa{onDelete: 'cascade', hooks:true}
-db.Student.belongsToMany(db.Grupa, { through: 'StudentGrupa',onDelete: 'cascade',onUpdate:'cascade'} );
-db.Grupa.belongsToMany(db.Student, { through: 'StudentGrupa', onDelete:'cascade',onUpdate:'cascade' });
+db.Student.belongsToMany(db.Grupa, { through: 'StudentGrupa',onDelete: 'cascade'});
+db.Grupa.belongsToMany(db.Student, { through: 'StudentGrupa', onDelete:'cascade'});
 
 module.exports = db;

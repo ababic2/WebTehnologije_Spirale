@@ -159,12 +159,19 @@ document.getElementById("send").addEventListener("click", async function () {
     }).then(response => response.json())
         .then(data => {
             console.log(data.result)
-            for(let i = 0; i < data.result.length; i++) {
-                    if(data.result[i] === "Student uspješno dodan!")
+            if(data.result !== undefined) {
+                for (let i = 0; i < data.result.length; i++) {
+                    if (data.result[i] === "Student uspješno dodan!")
                         dodani.push(i);
-                    else if(data.result[i] === "Student već postoji!")
+                    else if (data.result[i] === "Student već postoji!")
                         postojeci.push(i);
-                newText += data.result[i] + "\n";
+                    else if (data.result.length === 0)
+                        newText += "";
+                    else newText += data.result[i] + "\n";
+                }
+            } else {
+                for(let i = 0; i < newStudents.length; i++)
+                    dodani.push(i);
             }
         });
 
