@@ -8,6 +8,7 @@ db.init = async () => {
         await db.Dan.create({naziv:"Utorak"})
 
         await db.Grupa.create({naziv:"GrupaA", predmet:1})
+        await db.Grupa.create({naziv:"GrupaA", predmet:2})
         await db.Grupa.create({naziv:"GrupaB",predmet:2})
 
         await db.Predmet.create({naziv:"RPR"})

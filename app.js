@@ -437,6 +437,8 @@ app.delete('/v2/student',async(req,res)=> {
     });
     if(deleted === 1)
         res.json({message:"Student uspješno obrisan!"})
+        //obrisi i u medjutabeli
+
     else
         res.json({message:"Student nije ni bio upisan!"})
 });
