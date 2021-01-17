@@ -6,6 +6,11 @@ db.init = async () => {
 
         await db.Dan.create({naziv:"Ponedjeljak"})
         await db.Dan.create({naziv:"Utorak"})
+        await db.Dan.create({naziv:"Srijeda"})
+        await db.Dan.create({naziv:"Četvrtak"})
+        await db.Dan.create({naziv:"Petak"})
+        await db.Dan.create({naziv:"Subota"})
+        await db.Dan.create({naziv:"Nedjelja"})
 
         await db.Grupa.create({naziv:"GrupaA", predmet:1})
         await db.Grupa.create({naziv:"GrupaA", predmet:2})
@@ -19,6 +24,7 @@ db.init = async () => {
 
         await db.Tip.create({naziv:"Predavanje"})
         await db.Tip.create({naziv:"Tutorijal"})
+        await db.Tip.create({naziv:"Vjezbe"})
 
         await db.StudentGrupa.create({StudentId:1, GrupaId:1})
         await db.StudentGrupa.create({StudentId:2, GrupaId:2})

@@ -363,22 +363,32 @@ app.post('/v2/nizStudent/',async (req,res)=> {
 });
 
 
+function timeValid(pocetak, kraj) {
+    if ((pocetak > 0 && pocetak < 24) &&
+            (kraj > 0 && kraj < 24) &&
+            (kraj > pocetak) && pocetak >= 8 && kraj <= 20)  return true;
+    return false;
+}
+
 app.post('/v2/aktivnost',async (req,res)=> {
     let tijelo = req.body;
     if(await checkIfActivityAlreadyExist(tijelo)){
         res.json({message:"Aktivnost već postoji!"})
     } else {
-        let aktivnost = await db.Aktivnost.create(
-            {
-                naziv: tijelo['naziv'],
-                pocetak: tijelo['pocetak'],
-                kraj: tijelo['kraj'],
-                predmet:tijelo['predmet'],
-                dan:tijelo['dan'],
-                grupa:tijelo['grupa'],
-                tip:tijelo['tip']
-            });
-        res.json({message:"Aktivnost uspješno dodana!"})
+        if(timeValid(tijelo['pocetak'], tijelo['kraj'])) {
+            let aktivnost = await db.Aktivnost.create(
+                {
+                    naziv: tijelo['naziv'],
+                    pocetak: tijelo['pocetak'],
+                    kraj: tijelo['kraj'],
+                    predmet: tijelo['predmet'],
+                    dan: tijelo['dan'],
+                    grupa: tijelo['grupa'],
+                    tip: tijelo['tip']
+                });
+            res.json({message: "Aktivnost uspješno dodana!"})
+        } else
+            res.json({message: "Aktivnost nije validna!"});
     }
 });
 async function checkIfActivityAlreadyExist(tijelo){
@@ -427,6 +437,22 @@ app.delete('/v2/grupa',async(req,res)=> {
     else
         res.json({message:"Grupa nije ni bila upisana!"})
 });
+
+app.delete('/v2/grupa/:id',async(req,res)=> {
+    let deleted = await db.Grupa.destroy({
+        where:{
+            naziv: req.body['naziv'],
+            predmet: req.params.id
+        }
+    });
+    if(deleted === 1)
+        res.json({message:"Grupa uspješno obrisana!"})
+    else
+        res.json({message:"Grupa nije ni bila upisana!"})
+});
+
+
+
 app.delete('/v2/predmet',async(req,res)=> {
     let deleted = await db.Predmet.destroy({
         where:{
@@ -438,6 +464,20 @@ app.delete('/v2/predmet',async(req,res)=> {
     else
         res.json({message:"Predmet nije ni bio upisan!"})
 });
+
+app.delete('/v2/predmet/:id',async(req,res)=> {
+    let deleted = await db.Predmet.destroy({
+        where:{
+            id: req.params.id,
+            naziv: req.body['naziv']
+        }
+    });
+    if(deleted === 1)
+        res.json({message:"Predmet uspješno obrisan!"})
+    else
+        res.json({message:"Predmet nije ni bio upisan!"})
+});
+
 app.delete('/v2/tip',async(req,res)=> {
     let deleted = await db.Tip.destroy({
         where:{
