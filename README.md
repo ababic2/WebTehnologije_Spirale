@@ -48,3 +48,10 @@ Razvoj projekta kroz 4 spirale:
 
 <img src= /gifs/unosAktivnosti.gif width="600" height="300" />
 
+## Running
+
+Pokretanje sa node something.js
+
+## Status
+
+Potrebno poboljšanje
